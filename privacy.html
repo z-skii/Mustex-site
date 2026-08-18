@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Privacy Policy — SUBTEXT</title>
+<meta name="theme-color" content="#0b0b0f" />
+<style>
+  :root {
+    --bg: #0b0b0f;
+    --surface: #15151c;
+    --border: #2a2a35;
+    --text: #ffffff;
+    --body: #d7d7e0;
+    --dim: #9a9aa5;
+    --faint: #66667a;
+    --accent: #6c5ce7;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--body);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  header {
+    padding: 40px 24px 16px;
+    text-align: center;
+  }
+  .wordmark {
+    color: var(--text);
+    font-size: 22px;
+    font-weight: 900;
+    letter-spacing: 6px;
+    text-decoration: none;
+  }
+  .wordmark:hover { color: var(--accent); }
+  main {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 24px 24px 64px;
+  }
+  h1 {
+    color: var(--text);
+    font-size: 26px;
+    font-weight: 900;
+    letter-spacing: -0.4px;
+    margin: 8px 0 4px;
+  }
+  .updated {
+    color: var(--faint);
+    font-size: 13px;
+    letter-spacing: 0.4px;
+    margin: 0 0 32px;
+  }
+  .note {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px 16px;
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--dim);
+    margin-bottom: 32px;
+  }
+  h2 {
+    color: var(--text);
+    font-size: 16px;
+    font-weight: 800;
+    letter-spacing: -0.2px;
+    margin: 32px 0 10px;
+  }
+  p, li { font-size: 15px; line-height: 1.7; }
+  ul { padding-left: 20px; margin: 8px 0; }
+  li { margin-bottom: 6px; }
+  a { color: var(--text); text-decoration: underline; text-decoration-color: var(--border); }
+  a:hover { color: var(--accent); text-decoration-color: var(--accent); }
+  code {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1px 6px;
+    font-size: 13px;
+    color: var(--body);
+  }
+  footer {
+    text-align: center;
+    padding: 24px;
+    font-size: 13px;
+    color: var(--faint);
+  }
+  footer a { color: var(--dim); }
+</style>
+</head>
+<body>
+  <header>
+    <a class="wordmark" href="index.html">SUBTEXT</a>
+  </header>
+  <main>
+    <h1>Privacy Policy</h1>
+    <p class="updated">Effective 2026-08-18</p>
+
+    <div class="note">
+      This page is generated directly from how SUBTEXT's code actually handles data, not
+      from a legal template. If you have a separate privacy policy you'd like published
+      instead, send it to <a href="mailto:molol098765@gmail.com">molol098765@gmail.com</a>&nbsp;/
+      the app owner and this page will be replaced with it.
+    </div>
+
+    <h2>What SUBTEXT does</h2>
+    <p>
+      SUBTEXT lets you select screenshots of a text conversation. The app sends those
+      images to a server function, which asks Claude (made by Anthropic) to analyze the
+      conversation and return a structured verdict &mdash; a score, tone signals, flags,
+      and suggested replies. That result is shown to you in the app.
+    </p>
+
+    <h2>Screenshots</h2>
+    <ul>
+      <li>Screenshots you select are sent, in memory, from the app to a Supabase Edge
+        Function, and from there to the Anthropic API for analysis.</li>
+      <li>Screenshots are never written to a database or file storage by SUBTEXT. They
+        exist only for the duration of that one request and are discarded once the
+        response is returned.</li>
+      <li>Anthropic processes the images to generate the analysis; see
+        <a href="https://www.anthropic.com/legal/privacy" target="_blank" rel="noopener">Anthropic's privacy policy</a>
+        for how they handle API inputs.</li>
+    </ul>
+
+    <h2>Anonymous device identifier</h2>
+    <ul>
+      <li>On first launch, the app generates a random identifier and stores it only on
+        your device (it is not tied to your name, email, or Apple account).</li>
+      <li>That identifier is sent to our server to enforce a limit on the number of free
+        analyses per install, and is stored in a database column alongside a usage
+        count &mdash; nothing else.</li>
+    </ul>
+
+    <h2>Analytics</h2>
+    <p>
+      SUBTEXT sends a small number of product-usage events to PostHog, an analytics
+      provider, using the same anonymous device identifier described above. The events
+      tracked are limited to:
+    </p>
+    <ul>
+      <li><code>app_opened</code></li>
+      <li><code>screenshots_submitted</code> (count only)</li>
+      <li><code>analysis_completed</code> (score, confidence, duration)</li>
+      <li><code>analysis_failed</code> (reason)</li>
+      <li><code>safety_hold_shown</code></li>
+      <li><code>reply_copied</code> (which reply style)</li>
+      <li><code>share_initiated</code> / <code>share_completed</code></li>
+      <li><code>limit_reached_shown</code></li>
+      <li><code>side_swap_used</code></li>
+    </ul>
+    <p>
+      No screenshot content, no message text, and no names are ever included in these
+      events.
+    </p>
+
+    <h2>What we don't do</h2>
+    <ul>
+      <li>No account or sign-in is required, so we never collect your name, email, or
+        phone number.</li>
+      <li>We don't use advertising trackers, and we don't sell or share data with
+        third parties beyond the processors named above (Anthropic for analysis,
+        PostHog for anonymous product analytics, Supabase for hosting the server
+        function and the device counter).</li>
+    </ul>
+
+    <h2>Safety handling</h2>
+    <p>
+      If a conversation appears to involve a minor in a romantic/sexual context, threats
+      of violence, or an active self-harm crisis, SUBTEXT skips the normal analysis and
+      shows a brief supportive message instead. This decision happens inside the same
+      one-time request and is not logged or stored separately.
+    </p>
+
+    <h2>Contact</h2>
+    <p>
+      Questions about this policy or your data:
+      <a href="mailto:molol098765@gmail.com">molol098765@gmail.com</a>
+    </p>
+  </main>
+  <footer>
+    <a href="index.html">&larr; Back to SUBTEXT</a>
+  </footer>
+</body>
+</html>
