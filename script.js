@@ -47,18 +47,20 @@
     }
   });
 
-  /* ---------- score count-up ---------- */
+  /* ---------- score count-up (supports decimals, e.g. 5.4) ---------- */
 
   function countUp(el) {
-    var target = parseInt(el.getAttribute("data-count"), 10);
+    var raw = el.getAttribute("data-count");
+    var target = parseFloat(raw);
     if (isNaN(target)) return;
+    var decimals = raw.indexOf(".") > -1 ? 1 : 0;
     var dur = 900;
     var start = null;
     function tick(ts) {
       if (!start) start = ts;
       var p = Math.min((ts - start) / dur, 1);
       var eased = 1 - Math.pow(1 - p, 3);
-      el.textContent = Math.round(eased * target);
+      el.textContent = (eased * target).toFixed(decimals);
       if (p < 1) requestAnimationFrame(tick);
     }
     requestAnimationFrame(tick);
@@ -88,25 +90,68 @@
     revealEls.forEach(function (el) { revealIO.observe(el); });
   }
 
-  /* ---------- how it works: sticky phone state ---------- */
+  /* ---------- cinematic: one phone, six chapters ---------- */
 
-  var howPhone = document.getElementById("howPhone");
-  var stepTriggers = document.querySelectorAll("[data-step-trigger]");
-  if (howPhone && stepTriggers.length && supportsIO) {
-    var stepIO = new IntersectionObserver(function (entries) {
+  var cineStage = document.getElementById("cineStage");
+  var cineChapters = document.querySelectorAll("[data-chapter-trigger]");
+  var cineNum = document.getElementById("cineNum");
+  var cineLabel = document.getElementById("cineLabel");
+  var cpVerdict = document.getElementById("cpVerdict");
+  var verdictCounted = false;
+
+  var CHAPTER_NAMES = {
+    1: "The Chat",
+    2: "Analysis",
+    3: "Signals",
+    4: "The Read",
+    5: "What to Send",
+    6: "Share"
+  };
+  var SIG_MARK = { ask: "marked", vague: "marked-bad", deflect: "marked-bad" };
+  var CINE_MARKS = ["marked", "marked-good", "marked-bad"];
+
+  function setCineChapter(n) {
+    if (!cineStage) return;
+    cineStage.setAttribute("data-chapter", n);
+    if (cineNum) cineNum.textContent = n < 10 ? "0" + n : String(n);
+    if (cineLabel) cineLabel.textContent = CHAPTER_NAMES[n] || "";
+
+    cineChapters.forEach(function (c) {
+      c.classList.toggle("active", c.getAttribute("data-chapter-trigger") === String(n));
+    });
+
+    document.querySelectorAll("#cpChat .bubble[data-sig]").forEach(function (b) {
+      var mark = SIG_MARK[b.getAttribute("data-sig")];
+      CINE_MARKS.forEach(function (m) { b.classList.remove(m); });
+      if (n === 3 && mark) b.classList.add(mark);
+    });
+
+    var chatLayer = document.getElementById("cpChat");
+    var sendLayer = document.getElementById("cpSend");
+    var shareLayer = document.getElementById("cpShare");
+    if (chatLayer) chatLayer.classList.toggle("active", n <= 3);
+    if (cpVerdict) cpVerdict.classList.toggle("active", n === 4);
+    if (sendLayer) sendLayer.classList.toggle("active", n === 5);
+    if (shareLayer) shareLayer.classList.toggle("active", n === 6);
+
+    if (n === 4 && !verdictCounted && !reduceMotion) {
+      verdictCounted = true;
+      var s = cpVerdict && cpVerdict.querySelector("[data-count]");
+      if (s) countUp(s);
+    }
+  }
+
+  if (cineStage && cineChapters.length && supportsIO) {
+    var cineIO = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {
         if (entry.isIntersecting) {
-          howPhone.setAttribute("data-step", entry.target.getAttribute("data-step-trigger"));
-          stepTriggers.forEach(function (s) {
-            s.classList.toggle("active", s === entry.target);
-          });
+          setCineChapter(parseInt(entry.target.getAttribute("data-chapter-trigger"), 10));
         }
       });
     }, { rootMargin: "-45% 0px -45% 0px", threshold: 0 });
-    stepTriggers.forEach(function (s) { stepIO.observe(s); });
-  } else {
-    if (howPhone) howPhone.setAttribute("data-step", "3");
-    stepTriggers.forEach(function (s) { s.classList.add("active"); });
+    cineChapters.forEach(function (c) { cineIO.observe(c); });
+  } else if (cineStage) {
+    setCineChapter(6);
   }
 
   /* ---------- receipts: annotations highlight bubbles ---------- */
@@ -161,27 +206,104 @@
     }
   }
 
-  /* ---------- copy buttons ---------- */
+  /* ---------- copy to clipboard (real success/failure, mobile Safari fallback) ---------- */
+
+  function copyText(text) {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      return navigator.clipboard.writeText(text).then(
+        function () { return true; },
+        function () { return execCommandCopy(text); }
+      );
+    }
+    return Promise.resolve(execCommandCopy(text));
+  }
+
+  function execCommandCopy(text) {
+    try {
+      var ta = document.createElement("textarea");
+      ta.value = text;
+      ta.setAttribute("readonly", "");
+      ta.style.position = "fixed";
+      ta.style.top = "0";
+      ta.style.left = "-9999px";
+      document.body.appendChild(ta);
+      var range = document.createRange();
+      range.selectNodeContents(ta);
+      var sel = window.getSelection();
+      sel.removeAllRanges();
+      sel.addRange(range);
+      ta.setSelectionRange(0, text.length);
+      var ok = document.execCommand("copy");
+      sel.removeAllRanges();
+      document.body.removeChild(ta);
+      return ok;
+    } catch (e) {
+      return false;
+    }
+  }
 
   document.querySelectorAll("[data-copy]").forEach(function (btn) {
     btn.addEventListener("click", function () {
       var text = btn.getAttribute("data-text") || "";
       var original = btn.textContent;
-      function done() {
-        btn.classList.add("copied");
-        btn.textContent = "Copied";
+      copyText(text).then(function (ok) {
+        btn.classList.add(ok ? "copied" : "copy-failed");
+        btn.textContent = ok ? "Copied" : "Press ⌘/Ctrl+C";
         setTimeout(function () {
-          btn.classList.remove("copied");
+          btn.classList.remove("copied", "copy-failed");
           btn.textContent = original;
         }, 1600);
-      }
-      if (navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(text).then(done, done);
-      } else {
-        done();
-      }
+      });
     });
   });
+
+  document.querySelectorAll("[data-copy-live]").forEach(function (btn) {
+    var target = document.getElementById(btn.getAttribute("data-copy-live"));
+    if (!target) return;
+    btn.addEventListener("click", function () {
+      var text = target.textContent.trim();
+      var original = btn.textContent;
+      copyText(text).then(function (ok) {
+        btn.classList.add(ok ? "copied" : "copy-failed");
+        btn.textContent = ok ? "Copied" : "Press ⌘/Ctrl+C";
+        setTimeout(function () {
+          btn.classList.remove("copied", "copy-failed");
+          btn.textContent = original;
+        }, 1600);
+      });
+    });
+  });
+
+  /* ---------- What to Send: mode switcher ---------- */
+
+  var sendModes = document.querySelectorAll(".send-mode");
+  var sendReplyText = document.getElementById("sendReplyText");
+  if (sendModes.length && sendReplyText) {
+    sendModes.forEach(function (mode) {
+      mode.addEventListener("click", function () {
+        if (mode.classList.contains("active")) return;
+        var next = sendReplyText.getAttribute("data-reply-" + mode.getAttribute("data-mode"));
+        if (!next) return;
+
+        sendModes.forEach(function (m) {
+          m.classList.toggle("active", m === mode);
+          m.setAttribute("aria-pressed", String(m === mode));
+        });
+
+        function swapIn() {
+          sendReplyText.textContent = next;
+          if (reduceMotion) return;
+          requestAnimationFrame(function () { sendReplyText.classList.remove("swap"); });
+        }
+        if (reduceMotion) {
+          swapIn();
+        } else {
+          sendReplyText.classList.add("swap");
+          setTimeout(swapIn, 220);
+        }
+      });
+    });
+  }
 
   /* ---------- FAQ accordion ---------- */
 

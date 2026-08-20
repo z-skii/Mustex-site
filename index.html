@@ -85,7 +85,7 @@
       <ul class="nav-links">
         <li><a href="#how">How it works</a></li>
         <li><a href="#read">The Read</a></li>
-        <li><a href="#receipts">Receipts</a></li>
+        <li><a href="#send">What to Send</a></li>
         <li><a href="#faq">FAQ</a></li>
       </ul>
       <div class="nav-cta">
@@ -135,7 +135,7 @@
       </div>
       <p class="float-note fn-1" data-reveal>"Maybe" twice. Zero plans.</p>
       <p class="float-note fn-2" data-reveal>You're <b>carrying</b> this one.</p>
-      <p class="float-note fn-score" data-reveal><span class="num" data-count="54">54</span>Interested, not invested.</p>
+      <p class="float-note fn-score" data-reveal><span class="num" data-count="5.4">5.4</span>Interested, not invested.</p>
     </div>
   </div>
 </section>
@@ -162,65 +162,120 @@
   </div>
 </section>
 
-<!-- ======================= HOW IT WORKS ======================= -->
-<section class="how" id="how" aria-labelledby="how-h">
+<!-- ======================= CINEMATIC: THE READ, LIVE ======================= -->
+<section class="cine" id="how" aria-labelledby="cine-h">
+  <div class="blob cine-blob" aria-hidden="true"></div>
   <div class="wrap">
-    <div class="how-head" data-reveal>
-      <span class="kicker accent">How it works</span>
-      <h2 id="how-h" class="display">Screenshot in. Read out.</h2>
-    </div>
+  <div class="cine-head" data-reveal>
+    <span class="kicker accent">How it works</span>
+    <h2 id="cine-h" class="display">Watch MUSTEX read a chat.</h2>
+    <p class="lede">One conversation, start to finish. Scroll to watch it move from screenshot to verdict to reply.</p>
+  </div>
 
-    <div class="how-sticky">
-      <div class="phone how-phone" id="howPhone" data-step="1" aria-hidden="true">
-        <div class="phone-screen">
-          <div class="state state-1">
-            <div class="upload-slot">
-              <strong>Drop your screenshots</strong>
-              Add the part of the conversation you keep going back to.
-            </div>
-            <div class="upload-thumb"><i></i><i></i><i></i></div>
-            <div class="upload-thumb"><i></i><i></i><i></i></div>
-          </div>
-          <div class="state state-2">
-            <div class="scan-wrap">
-              <div class="scan-line"></div>
-              <div class="bubble them">yeah maybe! i'll let you know</div>
-              <div class="bubble me">okay cool, there's that new place downtown</div>
+  <div class="cine-grid">
+    <div class="cine-sticky">
+      <div class="cine-stage" id="cineStage" data-chapter="1" aria-hidden="true">
+        <div class="cine-rings"></div>
+
+        <p class="cine-progress"><b id="cineNum">01</b><i>/ 06</i><em id="cineLabel">The Chat</em></p>
+
+        <div class="phone cine-phone" id="cinePhone">
+          <div class="phone-screen cp">
+
+            <div class="cp-layer cp-chat active" id="cpChat">
+              <p class="chat-day">Tue 9:42 PM</p>
+              <div class="bubble me" data-sig="ask">so are we still on for friday?</div>
+              <div class="bubble them" data-sig="vague">yeah maybe! i'll let you know</div>
+              <div class="bubble me" data-sig="ask">okay cool, there's that new place downtown</div>
+              <div class="bubble me" data-sig="ask">or we could just do the usual spot</div>
+              <p class="chat-day">Wed 11:15 AM</p>
               <div class="bubble them">haha nice</div>
-              <div class="bubble me">so… friday? 👀</div>
-              <p class="reading-label">Reading the dynamic<span class="dots"></span></p>
+              <div class="bubble me" data-sig="ask">so… friday? 👀</div>
+              <div class="bubble them" data-sig="deflect">omg this week has been crazy</div>
+              <div class="cine-scan"></div>
+              <div class="cine-chips">
+                <span class="chip">Tone</span><span class="chip">Effort</span><span class="chip">Timing</span><span class="chip">Energy</span>
+              </div>
             </div>
-          </div>
-          <div class="state state-3">
-            <div class="mini-verdict">
+
+            <div class="cp-layer cp-verdict rp" id="cpVerdict">
               <span class="rp-k">The verdict</span>
-              <span class="v">54<small>/100</small></span>
-              <p>Interested, not invested. They like the attention more than the plans.</p>
+              <div class="rp-score-row"><span class="rp-score" data-count="5.4">5.4</span><span class="rp-outof">/10</span></div>
+              <p class="rp-headline">Interested, not invested.</p>
+              <span class="rp-conf">High confidence</span>
+              <div class="rp-sep"></div>
+              <span class="rp-k">Signals</span>
+              <div class="rp-flag good"><span class="dot"></span>They start conversations unprompted.</div>
+              <div class="rp-flag bad"><span class="dot"></span>Goes vague when plans get specific.</div>
+              <div class="rp-sep"></div>
+              <span class="rp-k">Who's carrying this</span>
+              <div class="rp-effort"><div class="you"></div></div>
+              <div class="rp-effort-legend"><span>You · 68%</span><span>Them · 32%</span></div>
             </div>
-            <div class="mini-flag bad"><span class="dot"></span>Vague replies every time plans get specific.</div>
-            <div class="mini-flag good"><span class="dot"></span>They keep the conversation alive on their own.</div>
+
+            <div class="cp-layer cp-send" id="cpSend">
+              <span class="rp-k">What to send</span>
+              <div class="cine-modes">
+                <span class="cmode active">🔥</span><span class="cmode">😈</span><span class="cmode">🧊</span><span class="cmode">❤️</span><span class="cmode">😂</span>
+              </div>
+              <p class="cine-mode-label">Best</p>
+              <div class="cine-reply">“Let's lock Friday — 8 at the new place downtown?”</div>
+            </div>
+
+            <div class="cp-layer cp-share" id="cpShare">
+              <div class="cine-sharecard">
+                <span class="wordmark">MUSTEX</span>
+                <span class="rp-k">The verdict</span>
+                <p class="cine-share-score">5.4<small>/10</small></p>
+                <h3>Interested, not invested.</h3>
+                <div class="cine-share-flags"><span><span class="dot bad"></span>1 red flag</span><span><span class="dot good"></span>1 green flag</span></div>
+              </div>
+            </div>
+
           </div>
         </div>
+
+        <p class="cine-note" id="cineNote">“Maybe” twice. Zero plans.</p>
       </div>
     </div>
 
-    <div class="how-steps">
-      <div class="step" data-step-trigger="1" data-reveal>
-        <p class="step-num">01</p>
-        <h3>Drop the screenshot</h3>
-        <p>Give MUSTEX the conversation you're thinking about. It figures out which side is you automatically — and if it guesses wrong, one tap swaps it.</p>
+    <div class="cine-chapters">
+      <div class="cine-chapter" data-chapter-trigger="1" data-reveal>
+        <p class="step-num">01 · The Chat</p>
+        <h3>The conversation you keep rereading.</h3>
+        <p>Drop in the screenshot. MUSTEX starts with exactly what was sent — nothing summarized yet.</p>
       </div>
-      <div class="step" data-step-trigger="2" data-reveal>
-        <p class="step-num">02</p>
-        <h3>MUSTEX reads the dynamic</h3>
-        <p>It looks across the whole conversation — tone, effort, timing, patterns — not just the last message you can't stop staring at.</p>
+      <div class="cine-chapter" data-chapter-trigger="2" data-reveal>
+        <p class="step-num">02 · Analysis</p>
+        <h3>It's not reading the words. It's reading the dynamic.</h3>
+        <p>Tone, effort, timing, energy — MUSTEX looks across the whole exchange, not just the last text you can't stop staring at.</p>
       </div>
-      <div class="step" data-step-trigger="3" data-reveal>
-        <p class="step-num">03</p>
-        <h3>Get the read</h3>
-        <p>A structured verdict: the score, the signals that stood out, the effort balance, and what you could actually send next.</p>
+      <div class="cine-chapter" data-chapter-trigger="3" data-reveal>
+        <p class="step-num">03 · Signals</p>
+        <h3>Every flag points at a real moment.</h3>
+        <ul class="cine-siglist">
+          <li><span class="dot"></span>You asked about Friday three times.</li>
+          <li><span class="dot bad"></span>"Maybe" — vague, twice.</li>
+          <li><span class="dot bad"></span>Deflects when plans get specific.</li>
+        </ul>
+      </div>
+      <div class="cine-chapter" data-chapter-trigger="4" data-reveal>
+        <p class="step-num">04 · The Read</p>
+        <h3>The verdict, scored.</h3>
+        <p>A number out of 10, a headline, and how confident MUSTEX is in it — plus who's actually carrying the conversation.</p>
+      </div>
+      <div class="cine-chapter" data-chapter-trigger="5" data-reveal>
+        <p class="step-num">05 · What to Send</p>
+        <h3>Then it drafts your next move.</h3>
+        <p>Best, Bold, Nonchalant, Genuine, or Funny — a reply ready to send, not just an analysis to sit with.</p>
+      </div>
+      <div class="cine-chapter" data-chapter-trigger="6" data-reveal>
+        <p class="step-num">06 · Share</p>
+        <h3>Built to land in the group chat.</h3>
+        <p>The read becomes a card made for sharing — because you were going to screenshot it for them anyway.</p>
       </div>
     </div>
+  </div>
   </div>
 </section>
 
@@ -240,7 +295,7 @@
           <img class="screen-img" src="assets/screens/verdict.png" alt="" loading="lazy" />
           <div class="phone-screen rp">
             <span class="rp-k">The verdict</span>
-            <div class="rp-score-row"><span class="rp-score" data-count="54">54</span><span class="rp-outof">/100</span></div>
+            <div class="rp-score-row"><span class="rp-score" data-count="5.4">5.4</span><span class="rp-outof">/10</span></div>
             <p class="rp-headline">Interested, not invested.</p>
             <span class="rp-conf">High confidence</span>
             <div class="rp-sep"></div>
@@ -248,12 +303,12 @@
             <div class="rp-flag good"><span class="dot"></span>They start conversations unprompted.</div>
             <div class="rp-flag bad"><span class="dot"></span>Goes vague when plans get specific.</div>
             <div class="rp-sep"></div>
-            <span class="rp-k">Effort balance</span>
+            <span class="rp-k">Who's carrying this</span>
             <div class="rp-effort"><div class="you"></div></div>
             <div class="rp-effort-legend"><span>You · 68%</span><span>Them · 32%</span></div>
             <div class="rp-sep"></div>
             <span class="rp-k">What to send</span>
-            <div class="rp-reply"><b>Direct</b>"Let's lock Friday — 8 at the new place?"</div>
+            <div class="rp-reply"><b>🔥 Best</b>"Let's lock Friday — 8 at the new place?"</div>
           </div>
         </div>
       </div>
@@ -262,7 +317,7 @@
         <div class="callout" data-reveal>
           <span class="rp-k">The verdict</span>
           <h3>The main takeaway, scored.</h3>
-          <p>A number, a headline, and how confident MUSTEX is in it. No hedging, no essay.</p>
+          <p>A number out of 10, a headline, and how confident MUSTEX is in it. No hedging, no essay.</p>
         </div>
         <div class="callout good" data-reveal>
           <span class="rp-k">The signals</span>
@@ -270,20 +325,53 @@
           <p>The specific patterns that stood out — the good ones and the ones you've been explaining away.</p>
         </div>
         <div class="callout" data-reveal>
-          <span class="rp-k">Effort balance</span>
-          <h3>Who's actually carrying it.</h3>
+          <span class="rp-k">Who's carrying this</span>
+          <h3>The effort balance.</h3>
           <p>Whether the conversation is mutual or you've been hosting it by yourself.</p>
+        </div>
+        <div class="callout" data-reveal>
+          <span class="rp-k">Next move</span>
+          <h3>Not just what happened. What now.</h3>
+          <p><b class="next-action">Reply</b> — they're engaging, just cautious about firm plans. A confident, low-pressure ask closes the loop without adding pressure.</p>
         </div>
         <div class="callout" data-reveal>
           <span class="rp-k">What to send</span>
           <h3>Your next message, drafted.</h3>
-          <p>Reply suggestions in different styles, ready to copy straight into the chat.</p>
-          <button class="copy-btn" type="button" data-copy data-text="Let's lock Friday — 8 at the new place downtown?">Copy the direct one</button>
+          <p>Best, Bold, Nonchalant, Genuine, or Funny — ready to copy straight into the chat.</p>
+          <button class="copy-btn" type="button" data-copy data-text="Let's lock Friday — 8 at the new place downtown?">Copy the Best one</button>
         </div>
       </div>
     </div>
 
     <p class="demo-note read-footnote" data-reveal="fade">Illustrative example — every read is specific to your conversation.</p>
+  </div>
+</section>
+
+<!-- ======================= WHAT TO SEND ======================= -->
+<section class="send" id="send" aria-labelledby="send-h">
+  <div class="wrap">
+    <div class="send-head" data-reveal>
+      <span class="kicker accent">What to send</span>
+      <h2 id="send-h" class="display">Not just the read. The reply.</h2>
+      <p class="lede">MUSTEX doesn't stop at telling you what happened. Five drafts, five different energies — pick one and send it.</p>
+    </div>
+
+    <div class="send-panel" data-reveal>
+      <div class="send-modes" role="group" aria-label="Reply style">
+        <button class="send-mode active" type="button" aria-pressed="true" data-mode="best">🔥 Best</button>
+        <button class="send-mode" type="button" aria-pressed="false" data-mode="bold">😈 Bold</button>
+        <button class="send-mode" type="button" aria-pressed="false" data-mode="nonchalant">🧊 Nonchalant</button>
+        <button class="send-mode" type="button" aria-pressed="false" data-mode="genuine">❤️ Genuine</button>
+        <button class="send-mode" type="button" aria-pressed="false" data-mode="funny">😂 Funny</button>
+      </div>
+
+      <div class="send-reply" id="sendReply">
+        <p class="send-reply-text" id="sendReplyText" data-reply-best="Let's lock Friday — 8 at the new place downtown?" data-reply-bold="Friday, 8pm, new place downtown. I'll see you there 😏" data-reply-nonchalant="No worries if not — lmk whenever Friday's actually happening" data-reply-genuine="I'd really like to actually see you Friday if that still works" data-reply-funny="At this point Friday is basically a cryptid. Does it exist or not 👀">Let's lock Friday — 8 at the new place downtown?</p>
+        <button class="copy-btn copy-btn-lg" type="button" id="sendCopy" data-copy-live="sendReplyText">Copy</button>
+      </div>
+    </div>
+
+    <p class="demo-note" data-reveal="fade">Illustrative example — drafted from the actual conversation, not a template.</p>
   </div>
 </section>
 
@@ -348,7 +436,7 @@
 
     <div class="vrow vrow-high" data-reveal>
       <div class="blob" aria-hidden="true"></div>
-      <p class="vscore" data-count="86">86</p>
+      <p class="vscore" data-count="8.6">8.6</p>
       <div>
         <h3>It's mutual. Relax.</h3>
         <p>Matched energy, plans that actually happen, questions going both ways. You're overthinking a good thing.</p>
@@ -356,7 +444,7 @@
     </div>
     <div class="vrow vrow-mid" data-reveal>
       <div class="blob" aria-hidden="true"></div>
-      <p class="vscore" data-count="54">54</p>
+      <p class="vscore" data-count="5.4">5.4</p>
       <div>
         <h3>Interested, not invested.</h3>
         <p>Warm when it's easy, vague when it counts. The signals are real — they're just pointing in two directions.</p>
@@ -364,7 +452,7 @@
     </div>
     <div class="vrow vrow-low" data-reveal>
       <div class="blob" aria-hidden="true"></div>
-      <p class="vscore" data-count="31">31</p>
+      <p class="vscore" data-count="3.1">3.1</p>
       <div>
         <h3>You're carrying this.</h3>
         <p>One-word replies, no questions back, plans that never survive contact. The read is clear even if it stings.</p>
@@ -391,19 +479,26 @@
     <div class="share-visual">
       <div class="share-card" id="shareCard" aria-label="Example shareable verdict card">
         <div class="share-piece sp-1">
-          <span class="rp-k">The verdict</span>
-          <p class="score" data-count="31">31</p>
-          <h3>You're carrying this.</h3>
+          <span class="wordmark">MUSTEX</span>
         </div>
         <div class="share-piece sp-2">
-          <span class="dot"></span>You asked the last three questions.
+          <span class="rp-k">The verdict</span>
+          <h3>You're carrying this.</h3>
+          <p class="sp-takeaway">They answer everything. They ask nothing. That's your answer.</p>
+          <div class="sp-score-row"><span class="score" data-count="3.1">3.1</span><span class="sp-outof">/10</span></div>
+          <span class="sp-score-label">Conversation score</span>
         </div>
         <div class="share-piece sp-3">
-          "They answer everything. They ask nothing. That's your answer."
+          <div class="sp-flag-pill bad"><span class="sp-flag-count">2</span><span class="sp-flag-label">Red flags</span></div>
+          <div class="sp-flag-pill good"><span class="sp-flag-count">0</span><span class="sp-flag-label">Green flags</span></div>
         </div>
         <div class="share-piece sp-4">
-          <span class="wordmark">MUSTEX</span>
-          <span>Read between the lines</span>
+          <div class="sp-effort-legend"><span>You · 74%</span><span>26% · Them</span></div>
+          <div class="rp-effort"><div class="you" style="width:74%"></div></div>
+          <span class="sp-effort-label">Effort balance</span>
+        </div>
+        <div class="share-piece sp-5">
+          <span class="sp-watermark">mustex.app</span>
         </div>
       </div>
     </div>
