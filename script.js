@@ -5,6 +5,21 @@
   var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   var supportsIO = "IntersectionObserver" in window;
 
+  /* ---------- ignore mobile Safari's toolbar-driven resize noise ----------
+     iOS Safari fires "resize" as the address bar collapses/expands during
+     scroll — that's a HEIGHT change, not a real layout change. Anything
+     reacting to resize should only fire on an actual width change (or a
+     real orientation flip), never on every toolbar animation frame. */
+  var lastStableWidth = window.innerWidth;
+  function onRealResize(fn) {
+    window.addEventListener("resize", function () {
+      var w = window.innerWidth;
+      if (w === lastStableWidth) return;
+      lastStableWidth = w;
+      fn();
+    });
+  }
+
   /* ---------- real screenshot slots ----------
      Each .screen-img points at assets/screens/<name>.png.
      If the file exists, it covers the CSS mockup.
@@ -164,10 +179,28 @@
   }
 
   if (coreStage && coreChapters.length && supportsIO) {
+    /* rootMargin percentages are resolved against the CURRENT visual
+       viewport — on iOS Safari that viewport's height changes as the
+       address bar collapses/expands mid-scroll, which can make the
+       observer flip between two adjacent chapters (and their two
+       different --phone-scale values) purely from the toolbar
+       animation, with no further scrolling. That reads as the phone
+       "zooming" in and out. A short debounce coalesces that flapping
+       down to the single chapter the user actually settles on, while
+       staying imperceptible for real scroll-driven changes. */
+    var pendingChapter = null;
+    var chapterDebounce = null;
+    function scheduleCoreChapter(n) {
+      pendingChapter = n;
+      if (chapterDebounce) clearTimeout(chapterDebounce);
+      chapterDebounce = setTimeout(function () {
+        setCoreChapter(pendingChapter);
+      }, 80);
+    }
     var coreIO = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {
         if (entry.isIntersecting) {
-          setCoreChapter(parseInt(entry.target.getAttribute("data-chapter-trigger"), 10));
+          scheduleCoreChapter(parseInt(entry.target.getAttribute("data-chapter-trigger"), 10));
         }
       });
     }, { rootMargin: "-45% 0px -45% 0px", threshold: 0 });
@@ -350,7 +383,7 @@
       panel.style.maxHeight = open ? "0px" : panel.scrollHeight + "px";
     });
   });
-  window.addEventListener("resize", function () {
+  onRealResize(function () {
     document.querySelectorAll('.acc-btn[aria-expanded="true"]').forEach(function (btn) {
       var panel = document.getElementById(btn.getAttribute("aria-controls"));
       panel.style.maxHeight = panel.scrollHeight + "px";
