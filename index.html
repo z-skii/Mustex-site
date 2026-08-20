@@ -194,9 +194,9 @@
         <div class="core-grid-fx"></div>
       </div>
 
-      <div class="core-stage" id="coreStage" data-chapter="1" aria-hidden="true">
+      <div class="core-stage" id="coreStage" data-chapter="1">
 
-        <div class="core-orb" id="coreOrb" data-state="dormant">
+        <div class="core-orb" id="coreOrb" data-state="dormant" aria-hidden="true">
           <div class="orb-glow"></div>
           <svg class="orb-ring" viewBox="0 0 200 200"><circle cx="100" cy="100" r="86" /><circle class="orb-ring-seg" cx="100" cy="100" r="86" /></svg>
           <div class="orb-orbit orbit-a"><span class="orb-dot"></span></div>
@@ -205,7 +205,7 @@
           <div class="orb-core-dot"></div>
         </div>
 
-        <div class="core-phone-slot" id="corePhoneSlot">
+        <div class="core-phone-slot" id="corePhoneSlot" aria-hidden="true">
           <div class="phone core-phone" id="corePhone">
             <div class="phone-screen cp" id="corePhoneScreen">
 
@@ -242,12 +242,12 @@
         </div>
 
         <!-- chapter 3 only: messages detach from the phone as physical objects -->
-        <div class="float-msg fm-1"><p>“yeah maybe! i'll let you know”</p><span class="float-msg-line"></span><span class="float-msg-tag bad">Low effort</span></div>
-        <div class="float-msg fm-2"><p>“so… friday? 👀”</p><span class="float-msg-line"></span><span class="float-msg-tag">You asked again</span></div>
-        <div class="float-msg fm-3"><p>“omg this week has been crazy”</p><span class="float-msg-line"></span><span class="float-msg-tag bad">Deflected</span></div>
+        <div class="float-msg fm-1" aria-hidden="true"><p>“yeah maybe! i'll let you know”</p><span class="float-msg-line"></span><span class="float-msg-tag bad">Low effort</span></div>
+        <div class="float-msg fm-2" aria-hidden="true"><p>“so… friday? 👀”</p><span class="float-msg-line"></span><span class="float-msg-tag">You asked again</span></div>
+        <div class="float-msg fm-3" aria-hidden="true"><p>“omg this week has been crazy”</p><span class="float-msg-line"></span><span class="float-msg-tag bad">Deflected</span></div>
 
         <!-- chapter 4 only: the verdict builds as its own object, not inside the phone -->
-        <div class="core-panel core-verdict-panel" id="coreVerdictPanel">
+        <div class="core-panel core-verdict-panel" id="coreVerdictPanel" aria-hidden="true">
           <span class="rp-k">The verdict</span>
           <div class="rp-score-row"><span class="rp-score" data-count="5.4">5.4</span><span class="rp-outof">/10</span></div>
           <p class="rp-headline">Interested, not invested.</p>
@@ -262,16 +262,19 @@
         </div>
 
         <!-- chapter 5 only: reply controls float free of any card -->
-        <div class="core-panel core-reply-panel" id="coreReplyPanel">
+        <div class="core-panel core-reply-panel mode-switcher" id="coreReplyPanel">
           <span class="rp-k">What to send</span>
-          <div class="core-reply-pills">
-            <span class="pill active">🔥 Best</span><span class="pill">😈 Bold</span><span class="pill">🧊 Nonchalant</span>
+          <div class="core-reply-pills" role="group" aria-label="Reply style">
+            <button class="mode-btn pill active" type="button" aria-pressed="true" data-mode="best">🔥 Best</button>
+            <button class="mode-btn pill" type="button" aria-pressed="false" data-mode="bold">😈 Bold</button>
+            <button class="mode-btn pill" type="button" aria-pressed="false" data-mode="nonchalant">🧊 Nonchalant</button>
           </div>
-          <p class="core-reply-text">“Let's lock Friday — 8 at the new place downtown?”</p>
+          <p class="core-reply-text mode-reply-text" data-reply-best="Let's lock Friday — 8 at the new place downtown?" data-reply-bold="Friday, 8pm, new place downtown. I'll see you there 😏" data-reply-nonchalant="No worries if not — lmk whenever Friday's actually happening">Let's lock Friday — 8 at the new place downtown?</p>
+          <button class="copy-btn core-copy-btn mode-copy-btn" type="button">Copy</button>
         </div>
 
         <!-- chapter 6 only: the result converges and lands in a group chat -->
-        <div class="core-panel core-share-scene" id="coreShareScene">
+        <div class="core-panel core-share-scene" id="coreShareScene" aria-hidden="true">
           <div class="core-sharecard">
             <span class="wordmark">MUSTEX</span>
             <p class="core-share-score">5.4<small>/10</small></p>
@@ -381,18 +384,18 @@
       <p class="lede">MUSTEX doesn't stop at telling you what happened. Five drafts, five different energies — pick one and send it.</p>
     </div>
 
-    <div class="send-panel" data-reveal>
+    <div class="send-panel mode-switcher" data-reveal>
       <div class="send-modes" role="group" aria-label="Reply style">
-        <button class="send-mode active" type="button" aria-pressed="true" data-mode="best">🔥 Best</button>
-        <button class="send-mode" type="button" aria-pressed="false" data-mode="bold">😈 Bold</button>
-        <button class="send-mode" type="button" aria-pressed="false" data-mode="nonchalant">🧊 Nonchalant</button>
-        <button class="send-mode" type="button" aria-pressed="false" data-mode="genuine">❤️ Genuine</button>
-        <button class="send-mode" type="button" aria-pressed="false" data-mode="funny">😂 Funny</button>
+        <button class="send-mode mode-btn active" type="button" aria-pressed="true" data-mode="best">🔥 Best</button>
+        <button class="send-mode mode-btn" type="button" aria-pressed="false" data-mode="bold">😈 Bold</button>
+        <button class="send-mode mode-btn" type="button" aria-pressed="false" data-mode="nonchalant">🧊 Nonchalant</button>
+        <button class="send-mode mode-btn" type="button" aria-pressed="false" data-mode="genuine">❤️ Genuine</button>
+        <button class="send-mode mode-btn" type="button" aria-pressed="false" data-mode="funny">😂 Funny</button>
       </div>
 
       <div class="send-reply" id="sendReply">
-        <p class="send-reply-text" id="sendReplyText" data-reply-best="Let's lock Friday — 8 at the new place downtown?" data-reply-bold="Friday, 8pm, new place downtown. I'll see you there 😏" data-reply-nonchalant="No worries if not — lmk whenever Friday's actually happening" data-reply-genuine="I'd really like to actually see you Friday if that still works" data-reply-funny="At this point Friday is basically a cryptid. Does it exist or not 👀">Let's lock Friday — 8 at the new place downtown?</p>
-        <button class="copy-btn copy-btn-lg" type="button" id="sendCopy" data-copy-live="sendReplyText">Copy</button>
+        <p class="send-reply-text mode-reply-text" id="sendReplyText" data-reply-best="Let's lock Friday — 8 at the new place downtown?" data-reply-bold="Friday, 8pm, new place downtown. I'll see you there 😏" data-reply-nonchalant="No worries if not — lmk whenever Friday's actually happening" data-reply-genuine="I'd really like to actually see you Friday if that still works" data-reply-funny="At this point Friday is basically a cryptid. Does it exist or not 👀">Let's lock Friday — 8 at the new place downtown?</p>
+        <button class="copy-btn copy-btn-lg mode-copy-btn" type="button" id="sendCopy">Copy</button>
       </div>
     </div>
 

@@ -492,6 +492,15 @@ section { position: relative; }
   .fn-score { left: -8%; bottom: 6%; }
 }
 
+@media (min-width: 961px) and (max-height: 820px) {
+  .hero { padding: calc(var(--nav-h) + 16px) 0 24px; }
+  .hero-copy { padding-left: clamp(16px, 4vw, 50px); }
+  .hero-copy h1 { font-size: clamp(40px, 5.6vw, 68px); }
+  .hero-copy .lede { margin: 14px 0 22px; }
+  .hero-phone-stage { width: min(32vw, 260px); top: 12%; }
+  .hero-orb { width: 220px; height: 220px; }
+}
+
 /* ---------- SCREENSHOT → READ (problem) ---------- */
 
 .problem {
@@ -584,27 +593,37 @@ section { position: relative; }
 
 .core-stage { position: absolute; inset: 0; z-index: 1; }
 
-/* the analysis core sits behind everything, evolving with the story */
+/* the analysis core sits behind everything, evolving with the story —
+   starts modest at chapter 1, grows through analysis/signals, recedes
+   once the verdict/reply panels take over, collapses at share. */
 .core-stage .core-orb {
   position: absolute; top: 50%; left: 50%;
-  transform: translate(-50%, -50%) scale(1.5);
-  width: 340px; height: 340px;
+  transform: translate(-50%, -50%) scale(0.85);
+  width: 300px; height: 300px;
   z-index: 1;
-  transition: opacity 0.8s ease;
+  transition: opacity 0.8s ease, transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
 }
+.core-stage[data-chapter="2"] .core-orb { transform: translate(-50%, -50%) scale(1.1); }
+.core-stage[data-chapter="3"] .core-orb { transform: translate(-50%, -50%) scale(1.22); }
+.core-stage[data-chapter="4"] .core-orb { transform: translate(-50%, -50%) scale(1); }
+.core-stage[data-chapter="5"] .core-orb { transform: translate(-50%, -50%) scale(0.92); }
+.core-stage[data-chapter="6"] .core-orb { transform: translate(-50%, -50%) scale(0.6); }
 
-/* the phone: a cinematic object that repositions per chapter */
+/* the phone: a cinematic object that repositions per chapter — smaller
+   and framed with breathing room at chapter 1, growing more immersive
+   through analysis/signals, then receding as the verdict/reply panels
+   and finally the share scene take over. */
 .core-phone-slot {
   position: absolute; top: 50%; z-index: 3;
   transition: left 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.6s ease;
 }
-.core-phone-slot .phone { width: clamp(230px, 19vw, 300px); box-shadow: 0 0 0 6px #101017, 0 50px 120px rgba(0, 0, 0, 0.6); }
-.core-stage[data-chapter="1"] .core-phone-slot { left: 76%; transform: translate(-50%, -50%) rotate(5deg) scale(1.05); }
-.core-stage[data-chapter="2"] .core-phone-slot { left: 50%; transform: translate(-50%, -50%) rotate(-2deg) scale(1.12); }
-.core-stage[data-chapter="3"] .core-phone-slot { left: 34%; transform: translate(-50%, -50%) rotate(-1deg) scale(0.96); }
-.core-stage[data-chapter="4"] .core-phone-slot { left: 24%; transform: translate(-50%, -50%) rotate(0deg) scale(0.84); }
-.core-stage[data-chapter="5"] .core-phone-slot { left: 24%; transform: translate(-50%, -50%) rotate(1deg) scale(0.84); }
-.core-stage[data-chapter="6"] .core-phone-slot { left: 50%; transform: translate(-50%, -50%) rotate(-3deg) scale(0.6); opacity: 0.5; }
+.core-phone-slot .phone { width: clamp(200px, 17vw, 270px); box-shadow: 0 0 0 6px #101017, 0 50px 120px rgba(0, 0, 0, 0.6); }
+.core-stage[data-chapter="1"] .core-phone-slot { left: 72%; transform: translate(-50%, -50%) rotate(5deg) scale(0.76); }
+.core-stage[data-chapter="2"] .core-phone-slot { left: 50%; transform: translate(-50%, -50%) rotate(-2deg) scale(0.98); }
+.core-stage[data-chapter="3"] .core-phone-slot { left: 36%; transform: translate(-50%, -50%) rotate(-1deg) scale(1.04); }
+.core-stage[data-chapter="4"] .core-phone-slot { left: 24%; transform: translate(-50%, -50%) rotate(0deg) scale(0.8); }
+.core-stage[data-chapter="5"] .core-phone-slot { left: 24%; transform: translate(-50%, -50%) rotate(1deg) scale(0.8); }
+.core-stage[data-chapter="6"] .core-phone-slot { left: 50%; transform: translate(-50%, -50%) rotate(-3deg) scale(0.55); opacity: 0.5; }
 
 .core-note {
   position: absolute; bottom: -8%; left: 50%; transform: translateX(-50%);
@@ -683,21 +702,32 @@ section { position: relative; }
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
   box-shadow: 0 40px 100px rgba(0, 0, 0, 0.5);
-  opacity: 0; pointer-events: none;
+  opacity: 0; pointer-events: none; visibility: hidden;
   transform: translate(24px, -50%) scale(0.96);
-  transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.16, 1, 0.3, 1), visibility 0s linear 0.7s;
 }
-.core-panel.active { opacity: 1; pointer-events: auto; transform: translate(0, -50%) scale(1); }
+.core-panel.active {
+  opacity: 1; pointer-events: auto; visibility: visible;
+  transform: translate(0, -50%) scale(1);
+  transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.16, 1, 0.3, 1), visibility 0s linear 0s;
+}
 .core-verdict-panel { display: flex; flex-direction: column; gap: 9px; }
-.core-reply-panel { display: flex; flex-direction: column; gap: 14px; }
+.core-reply-panel { display: flex; flex-direction: column; gap: 14px; align-items: flex-start; }
 .core-reply-pills { display: flex; gap: 8px; flex-wrap: wrap; }
 .core-reply-pills .pill {
+  font-family: var(--ui);
   padding: 8px 14px; border-radius: 999px;
   background: var(--surface-2); border: 1px solid var(--border);
-  font-size: 13px; color: var(--dim); opacity: 0.6;
+  font-size: 13px; color: var(--dim); opacity: 0.75;
+  cursor: pointer;
+  transition: opacity 0.2s ease, color 0.2s ease, background 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
 }
+.core-reply-pills .pill:hover { opacity: 1; color: var(--text); border-color: var(--faint); }
+.core-reply-pills .pill:active { transform: scale(0.96); }
 .core-reply-pills .pill.active { color: #fff; background: var(--accent); border-color: var(--accent); opacity: 1; }
-.core-reply-text { font-family: var(--display); font-weight: 600; font-size: 19px; letter-spacing: -0.01em; color: var(--text); margin: 0; }
+.core-reply-text { font-family: var(--display); font-weight: 600; font-size: 19px; letter-spacing: -0.01em; color: var(--text); margin: 0; transition: opacity 0.22s ease, transform 0.22s ease; }
+.core-reply-text.swap { opacity: 0; transform: translateY(5px); }
+.core-copy-btn { align-self: flex-start; }
 
 .core-share-scene {
   right: 50%; transform: translate(50%, -50%) scale(0.96);
@@ -752,13 +782,19 @@ section { position: relative; }
 }
 .core-line.swap { opacity: 0; transform: translateY(10px); }
 
-@media (min-width: 901px) and (max-height: 760px) {
+@media (min-width: 901px) and (max-height: 820px) {
   .core-sticky { height: 100vh; }
-  .core-stage .core-orb { width: 260px; height: 260px; transform: translate(-50%, -50%) scale(1.2); }
-  .core-phone-slot .phone { width: clamp(190px, 15vw, 230px); }
-  .core-line { font-size: clamp(28px, 3.6vw, 48px); }
-  .core-caption { bottom: 6%; }
-  .core-panel { padding: 18px; }
+  .core-stage .core-orb { width: 240px; height: 240px; }
+  .core-phone-slot .phone { width: clamp(160px, 13vw, 210px); }
+  .core-stage[data-chapter="1"] .core-phone-slot { transform: translate(-50%, -50%) rotate(5deg) scale(0.7); }
+  .core-stage[data-chapter="2"] .core-phone-slot { transform: translate(-50%, -50%) rotate(-2deg) scale(0.88); }
+  .core-stage[data-chapter="3"] .core-phone-slot { transform: translate(-50%, -50%) rotate(-1deg) scale(0.94); }
+  .core-stage[data-chapter="4"] .core-phone-slot,
+  .core-stage[data-chapter="5"] .core-phone-slot { transform: translate(-50%, -50%) rotate(0deg) scale(0.72); }
+  .core-stage[data-chapter="6"] .core-phone-slot { transform: translate(-50%, -50%) rotate(-3deg) scale(0.48); }
+  .core-line { font-size: clamp(24px, 3.2vw, 42px); }
+  .core-caption { bottom: 6%; max-width: 50vw; }
+  .core-panel { padding: 18px; width: min(300px, 34vw); }
 }
 
 @media (max-width: 900px) {
@@ -896,7 +932,7 @@ section { position: relative; }
   .read-stage { grid-template-columns: 1fr; }
   .callouts { max-width: none; }
 }
-@media (min-width: 901px) and (max-height: 760px) {
+@media (min-width: 901px) and (max-height: 820px) {
   .read { padding: 80px 0 90px; }
   .read-head { margin-bottom: 40px; }
   .read-phone { width: 270px; }
@@ -1015,7 +1051,7 @@ section { position: relative; }
     border-radius: 0 12px 12px 0;
   }
 }
-@media (min-width: 901px) and (max-height: 760px) {
+@media (min-width: 901px) and (max-height: 820px) {
   .evidence { padding: 80px 0; }
   .evidence-pin { top: 76px; }
   .evidence-pin .phone { width: 260px; }
@@ -1291,4 +1327,5 @@ footer { border-top: 1px solid var(--border); padding: 36px 0 44px; }
   .cp-layer { transform: none; }
   .core-line.swap { opacity: 1; transform: none; }
   .send-reply-text.swap { opacity: 1; transform: none; }
+  .core-reply-text.swap { opacity: 1; transform: none; }
 }

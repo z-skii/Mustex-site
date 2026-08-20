@@ -279,53 +279,66 @@
     });
   });
 
-  document.querySelectorAll("[data-copy-live]").forEach(function (btn) {
-    var target = document.getElementById(btn.getAttribute("data-copy-live"));
-    if (!target) return;
-    btn.addEventListener("click", function () {
-      var text = target.textContent.trim();
-      var original = btn.textContent;
-      copyText(text).then(function (ok) {
-        btn.classList.add(ok ? "copied" : "copy-failed");
-        btn.textContent = ok ? "Copied" : "Press ⌘/Ctrl+C";
-        setTimeout(function () {
-          btn.classList.remove("copied", "copy-failed");
-          btn.textContent = original;
-        }, 1600);
+  /* ---------- What to Send: mode switcher ----------
+     One implementation shared by every ".mode-switcher" instance on the
+     page (the cinematic mini panel AND the full standalone section) so
+     there is exactly one place this logic can break. Each instance keeps
+     its own state (active button + displayed reply) entirely in its own
+     DOM subtree — nothing outside a switcher's own click handlers ever
+     touches its .mode-btn/.mode-reply-text, so unrelated re-renders
+     (chapter changes, resize, IntersectionObserver) can never reset it. */
+
+  document.querySelectorAll(".mode-switcher").forEach(function (switcher) {
+    var buttons = switcher.querySelectorAll(".mode-btn");
+    var replyText = switcher.querySelector(".mode-reply-text");
+    var copyBtn = switcher.querySelector(".mode-copy-btn");
+    if (!buttons.length || !replyText) return;
+
+    function selectMode(btn) {
+      var next = replyText.getAttribute("data-reply-" + btn.getAttribute("data-mode"));
+      if (next == null) return;
+
+      buttons.forEach(function (b) {
+        var isActive = b === btn;
+        b.classList.toggle("active", isActive);
+        b.setAttribute("aria-pressed", String(isActive));
+      });
+
+      function swapIn() {
+        replyText.textContent = next;
+        if (reduceMotion) return;
+        requestAnimationFrame(function () { replyText.classList.remove("swap"); });
+      }
+      if (reduceMotion) {
+        swapIn();
+      } else {
+        replyText.classList.add("swap");
+        setTimeout(swapIn, 220);
+      }
+    }
+
+    buttons.forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        if (btn.classList.contains("active")) return;
+        selectMode(btn);
       });
     });
-  });
 
-  /* ---------- What to Send: mode switcher ---------- */
-
-  var sendModes = document.querySelectorAll(".send-mode");
-  var sendReplyText = document.getElementById("sendReplyText");
-  if (sendModes.length && sendReplyText) {
-    sendModes.forEach(function (mode) {
-      mode.addEventListener("click", function () {
-        if (mode.classList.contains("active")) return;
-        var next = sendReplyText.getAttribute("data-reply-" + mode.getAttribute("data-mode"));
-        if (!next) return;
-
-        sendModes.forEach(function (m) {
-          m.classList.toggle("active", m === mode);
-          m.setAttribute("aria-pressed", String(m === mode));
+    if (copyBtn) {
+      copyBtn.addEventListener("click", function () {
+        var text = replyText.textContent.trim();
+        var original = copyBtn.textContent;
+        copyText(text).then(function (ok) {
+          copyBtn.classList.add(ok ? "copied" : "copy-failed");
+          copyBtn.textContent = ok ? "Copied" : "Press ⌘/Ctrl+C";
+          setTimeout(function () {
+            copyBtn.classList.remove("copied", "copy-failed");
+            copyBtn.textContent = original;
+          }, 1600);
         });
-
-        function swapIn() {
-          sendReplyText.textContent = next;
-          if (reduceMotion) return;
-          requestAnimationFrame(function () { sendReplyText.classList.remove("swap"); });
-        }
-        if (reduceMotion) {
-          swapIn();
-        } else {
-          sendReplyText.classList.add("swap");
-          setTimeout(swapIn, 220);
-        }
       });
-    });
-  }
+    }
+  });
 
   /* ---------- FAQ accordion ---------- */
 
