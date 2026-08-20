@@ -836,10 +836,9 @@ section { position: relative; }
   .core-stage {
     position: static; inset: auto;
     display: flex; flex-direction: column; align-items: center; gap: 6px;
-    /* mobile has its own deliberate, restrained size per chapter — see
-       below — this is only a fallback for any chapter that doesn't set
-       one explicitly. */
-    --phone-w: min(40vw, 160px);
+    /* constant across every chapter — see note below on why this
+       isn't per-chapter anymore. */
+    --phone-w: min(37vw, 144px);
   }
   /* the analysis core is a supporting accent on mobile, not a scene
      element competing for vertical space — kept small, and stepped
@@ -853,25 +852,15 @@ section { position: relative; }
      Real width (not a decorative transform) so the phone's footprint
      actually reflows the stacked mobile layout and gives the rest of
      each chapter's content (signals, verdict, reply controls) real
-     room — a uniform "just shrink it everywhere" phone was the reason
-     chapter 3/5 content pushed below the viewport. Transitions on
-     width/height only run once per (debounced) chapter change, never
-     per scroll frame, so this doesn't cost continuous layout work.
-     Target: the phone should read as ~55-65% of the vertical space
-     around it, not the dominant element — chapters with a data panel
-     (4/5/6) get a noticeably smaller phone so the panel has real room. */
+     room. The phone's WIDTH is now CONSTANT across every chapter —
+     an earlier pass varied it by 30-34% per chapter to fight this same
+     "content pushed below the fold" problem, and that swing itself
+     read as the phone zooming in and out while scrolling. Room for
+     each chapter's content now comes entirely from the panel/orb
+     compaction below (grid-collapse, hidden orb on ch4-6, compact
+     panel typography) — none of it from resizing the phone. */
   .core-phone-slot { position: static; transform: none !important; left: auto; }
-  .core-phone-slot .phone {
-    margin: 0 auto;
-    transition: width 0.45s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-  .core-phone-slot .phone-screen { transition: min-height 0.45s cubic-bezier(0.16, 1, 0.3, 1); }
-  .core-stage[data-chapter="1"] { --phone-w: min(42vw, 164px); }
-  .core-stage[data-chapter="2"] { --phone-w: min(45vw, 176px); }
-  .core-stage[data-chapter="3"] { --phone-w: min(32vw, 128px); }
-  .core-stage[data-chapter="4"] { --phone-w: min(34vw, 134px); }
-  .core-stage[data-chapter="5"] { --phone-w: min(30vw, 118px); }
-  .core-stage[data-chapter="6"] { --phone-w: min(30vw, 116px); }
+  .core-phone-slot .phone { margin: 0 auto; }
 
   .core-note { position: static; transform: none; display: inline-block; margin: 4px auto 0; opacity: 1 !important; }
   .core-stage:not([data-chapter="1"]) .core-note { display: none; }
@@ -944,14 +933,8 @@ section { position: relative; }
   /* short phones (SE-class, 375x667) — tighten further so nothing
      pushes past the fold. */
   .core-sticky { top: 60px; padding-top: 8px; }
-  .core-stage { gap: 4px; }
+  .core-stage { gap: 4px; --phone-w: min(29vw, 112px); }
   .core-stage .core-orb { width: 54px; height: 54px; }
-  .core-stage[data-chapter="1"] { --phone-w: min(38vw, 146px); }
-  .core-stage[data-chapter="2"] { --phone-w: min(41vw, 156px); }
-  .core-stage[data-chapter="3"] { --phone-w: min(27vw, 104px); }
-  .core-stage[data-chapter="4"] { --phone-w: min(27vw, 104px); }
-  .core-stage[data-chapter="5"] { --phone-w: min(27vw, 104px); }
-  .core-stage[data-chapter="6"] { --phone-w: min(27vw, 102px); }
   .core-line { font-size: clamp(20px, 6.4vw, 28px); }
   .core-panel.active { padding: 10px 16px; }
   .core-verdict-panel .core-panel-inner { gap: 3px; }
