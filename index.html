@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 <title>MUSTEX — Read between the lines</title>
 <meta name="description" content="MUSTEX turns a screenshot of your conversation into a structured read: the verdict, the signals, the effort balance, and what to send next. Coming soon to iPhone." />
 <link rel="canonical" href="https://z-skii.github.io/Mustex-site/" />
@@ -248,6 +248,7 @@
 
         <!-- chapter 4 only: the verdict builds as its own object, not inside the phone -->
         <div class="core-panel core-verdict-panel" id="coreVerdictPanel" aria-hidden="true">
+         <div class="core-panel-inner">
           <span class="rp-k">The verdict</span>
           <div class="rp-score-row"><span class="rp-score" data-count="5.4">5.4</span><span class="rp-outof">/10</span></div>
           <p class="rp-headline">Interested, not invested.</p>
@@ -259,10 +260,12 @@
           <span class="rp-k">Who's carrying this</span>
           <div class="rp-effort"><div class="you"></div></div>
           <div class="rp-effort-legend"><span>You · 68%</span><span>Them · 32%</span></div>
+         </div>
         </div>
 
         <!-- chapter 5 only: reply controls float free of any card -->
         <div class="core-panel core-reply-panel mode-switcher" id="coreReplyPanel">
+         <div class="core-panel-inner">
           <span class="rp-k">What to send</span>
           <div class="core-reply-pills" role="group" aria-label="Reply style">
             <button class="mode-btn pill active" type="button" aria-pressed="true" data-mode="best">🔥 Best</button>
@@ -271,10 +274,12 @@
           </div>
           <p class="core-reply-text mode-reply-text" data-reply-best="Let's lock Friday — 8 at the new place downtown?" data-reply-bold="Friday, 8pm, new place downtown. I'll see you there 😏" data-reply-nonchalant="No worries if not — lmk whenever Friday's actually happening">Let's lock Friday — 8 at the new place downtown?</p>
           <button class="copy-btn core-copy-btn mode-copy-btn" type="button">Copy</button>
+         </div>
         </div>
 
         <!-- chapter 6 only: the result converges and lands in a group chat -->
         <div class="core-panel core-share-scene" id="coreShareScene" aria-hidden="true">
+         <div class="core-panel-inner">
           <div class="core-sharecard">
             <span class="wordmark">MUSTEX</span>
             <p class="core-share-score">5.4<small>/10</small></p>
@@ -286,6 +291,7 @@
             <div class="core-gc-bubble">sent the read 👀</div>
             <span class="core-gc-delivered">Delivered</span>
           </div>
+         </div>
         </div>
 
         <div class="core-caption">

@@ -30,7 +30,15 @@
 }
 
 * { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
+html {
+  scroll-behavior: smooth;
+  /* Hide the visual scrollbar for this full-bleed, app-like cinematic
+     experience — native scrolling (wheel/touch/keyboard) is untouched;
+     only the rendered scrollbar track is suppressed. */
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* legacy Edge/IE */
+}
+html::-webkit-scrollbar { display: none; } /* Chrome/Safari/Edge (Chromium) */
 
 body {
   margin: 0;
@@ -41,7 +49,10 @@ body {
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
+body::-webkit-scrollbar { display: none; }
 
 img { max-width: 100%; display: block; }
 a { color: inherit; }
@@ -166,7 +177,7 @@ h1, h2, h3 { color: var(--text); margin: 0; }
 
 /* ---------- nav ---------- */
 
-.nav { position: fixed; inset: 12px 0 auto; z-index: 50; pointer-events: none; }
+.nav { position: fixed; top: max(12px, env(safe-area-inset-top)); left: 0; right: 0; z-index: 50; pointer-events: none; }
 .nav-inner {
   pointer-events: auto;
   width: min(var(--wrap), 100% - 24px);
@@ -733,8 +744,8 @@ section { position: relative; }
   transform: translate(0, -50%) scale(1);
   transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.16, 1, 0.3, 1), visibility 0s linear 0s;
 }
-.core-verdict-panel { display: flex; flex-direction: column; gap: 9px; }
-.core-reply-panel { display: flex; flex-direction: column; gap: 14px; align-items: flex-start; }
+.core-verdict-panel .core-panel-inner { display: flex; flex-direction: column; gap: 9px; }
+.core-reply-panel .core-panel-inner { display: flex; flex-direction: column; gap: 14px; align-items: flex-start; }
 .core-reply-pills { display: flex; gap: 8px; flex-wrap: wrap; }
 .core-reply-pills .pill {
   font-family: var(--ui);
@@ -754,9 +765,9 @@ section { position: relative; }
 .core-share-scene {
   right: 50%; transform: translate(50%, -50%) scale(0.96);
   width: min(420px, 40vw);
-  display: flex; align-items: center; gap: 20px;
   background: transparent; border: none; backdrop-filter: none; -webkit-backdrop-filter: none; box-shadow: none;
 }
+.core-share-scene .core-panel-inner { display: flex; align-items: center; gap: 20px; }
 .core-share-scene.active { transform: translate(50%, -50%) scale(1); }
 .core-sharecard {
   flex: none; width: 190px; padding: 18px; border-radius: 18px;
@@ -816,36 +827,137 @@ section { position: relative; }
 }
 
 @media (max-width: 900px) {
-  .core-sticky { position: sticky; top: 66px; height: auto; padding: 18px 20px 26px; overflow: visible; }
+  .core-sticky {
+    position: sticky; top: 66px; height: auto; overflow: visible;
+    padding: 12px 20px max(16px, env(safe-area-inset-bottom)) 20px;
+  }
   .core-triggers > div { height: 82svh; }
   .core-world { display: none; }
   .core-stage {
     position: static; inset: auto;
-    display: flex; flex-direction: column; align-items: center; gap: 14px;
-    --phone-w: min(60vw, 230px);
+    display: flex; flex-direction: column; align-items: center; gap: 6px;
+    /* mobile has its own deliberate, restrained size per chapter — see
+       below — this is only a fallback for any chapter that doesn't set
+       one explicitly. */
+    --phone-w: min(40vw, 160px);
   }
-  .core-stage .core-orb { position: static; transform: none; width: 140px; height: 140px; margin: 0 auto; }
+  /* the analysis core is a supporting accent on mobile, not a scene
+     element competing for vertical space — kept small, and stepped
+     down further once a data panel needs the room instead (ch 4-6). */
+  .core-stage .core-orb { position: static; transform: none; width: 72px; height: 72px; margin: 0 auto; }
+  .core-stage[data-chapter="4"] .core-orb,
+  .core-stage[data-chapter="5"] .core-orb,
+  .core-stage[data-chapter="6"] .core-orb { width: 0; height: 0; margin: 0; opacity: 0; }
+
+  /* ---------- deliberate per-chapter mobile phone size ----------
+     Real width (not a decorative transform) so the phone's footprint
+     actually reflows the stacked mobile layout and gives the rest of
+     each chapter's content (signals, verdict, reply controls) real
+     room — a uniform "just shrink it everywhere" phone was the reason
+     chapter 3/5 content pushed below the viewport. Transitions on
+     width/height only run once per (debounced) chapter change, never
+     per scroll frame, so this doesn't cost continuous layout work.
+     Target: the phone should read as ~55-65% of the vertical space
+     around it, not the dominant element — chapters with a data panel
+     (4/5/6) get a noticeably smaller phone so the panel has real room. */
   .core-phone-slot { position: static; transform: none !important; left: auto; }
-  .core-phone-slot .phone { margin: 0 auto; }
-  .core-note { position: static; transform: none; display: inline-block; margin: 8px auto 0; opacity: 1 !important; }
+  .core-phone-slot .phone {
+    margin: 0 auto;
+    transition: width 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .core-phone-slot .phone-screen { transition: min-height 0.45s cubic-bezier(0.16, 1, 0.3, 1); }
+  .core-stage[data-chapter="1"] { --phone-w: min(42vw, 164px); }
+  .core-stage[data-chapter="2"] { --phone-w: min(45vw, 176px); }
+  .core-stage[data-chapter="3"] { --phone-w: min(32vw, 128px); }
+  .core-stage[data-chapter="4"] { --phone-w: min(34vw, 134px); }
+  .core-stage[data-chapter="5"] { --phone-w: min(30vw, 118px); }
+  .core-stage[data-chapter="6"] { --phone-w: min(30vw, 116px); }
+
+  .core-note { position: static; transform: none; display: inline-block; margin: 4px auto 0; opacity: 1 !important; }
   .core-stage:not([data-chapter="1"]) .core-note { display: none; }
-  .float-msg { position: static; max-width: none; margin: 0 auto; opacity: 0; height: 0; overflow: hidden; transition: none; }
-  .core-stage[data-chapter="3"] .float-msg { opacity: 1; height: auto; overflow: visible; margin-bottom: 8px; }
+
+  /* float-msg: already collapses to a true 0 via max-height (no inner
+     wrapper needed — it has no padding of its own to leak). */
+  .float-msg {
+    position: static; max-width: none; margin: 0 auto;
+    opacity: 0; max-height: 0; overflow: hidden; pointer-events: none;
+    transition: opacity 0.3s ease, max-height 0.3s ease;
+  }
+  .core-stage[data-chapter="3"] .float-msg {
+    opacity: 1; max-height: 60px; overflow: visible; margin-bottom: 6px;
+    transition: opacity 0.3s ease 0.1s, max-height 0.3s ease 0.1s;
+  }
   .float-msg-line { display: none; }
+
+  /* core-panel: the grid 0fr/1fr technique animates a true, padding-
+     included collapse to zero — max-height:0 alone left ~50px of the
+     panel's own padding rendered even while "closed" (a flex-item +
+     max-height quirk), which is why chapter 4/5 content used to push
+     past the fold. Needs the .core-panel-inner wrapper as the single
+     grid item — plain max-height can't zero out a box's own padding. */
   .core-panel {
     position: static; width: 100%; max-width: 340px;
     transform: none !important; margin: 0 auto;
-    display: none;
+    display: grid; grid-template-rows: 0fr;
+    opacity: 0; pointer-events: none;
+    padding: 0 18px; border-radius: 18px;
+    transition: opacity 0.3s ease, grid-template-rows 0.4s ease, padding 0.4s ease;
     /* backdrop-filter is a GPU-compositing hazard during iOS Safari's
        toolbar show/hide animation on a sticky-pinned scene — drop it
        on mobile in favor of a plain solid panel. */
     backdrop-filter: none; -webkit-backdrop-filter: none;
     background: rgba(21, 21, 28, 0.94);
   }
-  .core-panel.active { display: flex; }
-  .core-share-scene { flex-direction: column; }
-  .core-caption { position: static; max-width: none; text-align: center; margin-top: 4px; }
-  .core-line { font-size: clamp(26px, 8vw, 38px); }
+  /* small stagger: new panel content settles in slightly AFTER the
+     phone has started resizing (0.45s width transition), instead of
+     both changing on the same frame — that simultaneity read as a
+     "glitch" at the chapter boundary. Hiding stays immediate. */
+  .core-panel.active {
+    opacity: 1; grid-template-rows: 1fr; pointer-events: auto; padding: 16px 18px;
+    transition: opacity 0.35s ease 0.14s, grid-template-rows 0.45s ease 0.14s, padding 0.45s ease 0.14s;
+  }
+  .core-panel-inner { min-height: 0; overflow: hidden; }
+  .core-verdict-panel .core-panel-inner { gap: 6px; }
+  .core-reply-panel .core-panel-inner { gap: 8px; }
+  .core-panel .rp-score { font-size: 38px; }
+  .core-panel .rp-headline { font-size: 16px; }
+  .core-panel .rp-sep { margin: 1px 0; }
+  .core-panel .rp-conf { padding: 3px 8px; font-size: 9px; }
+  .core-panel .rp-flag { font-size: 12px; }
+  /* keep the share card + group-chat mockup side by side even on
+     mobile (stacking them vertically nearly doubled this panel's
+     height) — just at a compact size that fits the narrower width. */
+  .core-share-scene .core-panel-inner { gap: 10px; }
+  .core-sharecard { width: 132px; padding: 10px; border-radius: 14px; }
+  .core-share-score { font-size: 24px; margin-top: 8px; }
+  .core-sharecard h3 { font-size: 11px; }
+  .core-share-flags { margin-top: 6px; gap: 3px; font-size: 9px; }
+  .core-gc { width: 112px; padding: 10px; border-radius: 14px; }
+  .core-gc-avatars i { width: 16px; height: 16px; }
+  .core-gc-bubble { margin-top: 8px; padding: 6px 8px; font-size: 10px; }
+  .core-gc-delivered { margin-top: 4px; font-size: 9px; }
+  .core-caption { position: static; max-width: none; text-align: center; margin-top: 0; }
+  .core-line { font-size: clamp(22px, 6.8vw, 34px); }
+}
+
+@media (max-width: 900px) and (max-height: 700px) {
+  /* short phones (SE-class, 375x667) — tighten further so nothing
+     pushes past the fold. */
+  .core-sticky { top: 60px; padding-top: 8px; }
+  .core-stage { gap: 4px; }
+  .core-stage .core-orb { width: 54px; height: 54px; }
+  .core-stage[data-chapter="1"] { --phone-w: min(38vw, 146px); }
+  .core-stage[data-chapter="2"] { --phone-w: min(41vw, 156px); }
+  .core-stage[data-chapter="3"] { --phone-w: min(27vw, 104px); }
+  .core-stage[data-chapter="4"] { --phone-w: min(27vw, 104px); }
+  .core-stage[data-chapter="5"] { --phone-w: min(27vw, 104px); }
+  .core-stage[data-chapter="6"] { --phone-w: min(27vw, 102px); }
+  .core-line { font-size: clamp(20px, 6.4vw, 28px); }
+  .core-panel.active { padding: 10px 16px; }
+  .core-verdict-panel .core-panel-inner { gap: 3px; }
+  .core-panel .rp-score { font-size: 28px; }
+  .core-panel .rp-effort { height: 8px; }
+  .core-panel .rp-effort-legend { font-size: 9px; }
 }
 
 /* ---------- THE READ: one big result, called out ---------- */
