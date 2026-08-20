@@ -90,68 +90,90 @@
     revealEls.forEach(function (el) { revealIO.observe(el); });
   }
 
-  /* ---------- cinematic: one phone, six chapters ---------- */
+  /* ---------- the core: one full-screen sequence, six chapters ---------- */
 
-  var cineStage = document.getElementById("cineStage");
-  var cineChapters = document.querySelectorAll("[data-chapter-trigger]");
-  var cineNum = document.getElementById("cineNum");
-  var cineLabel = document.getElementById("cineLabel");
-  var cpVerdict = document.getElementById("cpVerdict");
+  var coreStage = document.getElementById("coreStage");
+  var coreChapters = document.querySelectorAll("[data-chapter-trigger]");
+  var coreNum = document.getElementById("coreNum");
+  var coreLabel = document.getElementById("coreLabel");
+  var coreLine = document.getElementById("coreLine");
+  var coreOrb = document.getElementById("coreOrb");
+  var coreVerdictPanel = document.getElementById("coreVerdictPanel");
   var verdictCounted = false;
+  var currentCoreChapter = 0;
 
-  var CHAPTER_NAMES = {
-    1: "The Chat",
-    2: "Analysis",
-    3: "Signals",
-    4: "The Read",
-    5: "What to Send",
-    6: "Share"
+  var CHAPTER_NAMES = { 1: "The Chat", 2: "Reading it", 3: "The Signals", 4: "The Verdict", 5: "What to Send", 6: "Share it" };
+  var CHAPTER_LINES = {
+    1: "STOP REREADING<br>THE CHAT.",
+    2: "WE READ<br>THE DYNAMIC.",
+    3: "EVERY SIGNAL<br>HAS RECEIPTS.",
+    4: "NOW YOU KNOW<br>WHAT IT MEANS.",
+    5: "NOW YOU KNOW<br>WHAT TO SEND.",
+    6: "SEND THE READ<br>TO THE GROUP CHAT."
   };
+  var ORB_STATES = { 1: "dormant", 2: "pulsing", 3: "orbiting", 4: "reacting", 5: "reacting", 6: "collapsed" };
   var SIG_MARK = { ask: "marked", vague: "marked-bad", deflect: "marked-bad" };
-  var CINE_MARKS = ["marked", "marked-good", "marked-bad"];
+  var CORE_MARKS = ["marked", "marked-good", "marked-bad"];
 
-  function setCineChapter(n) {
-    if (!cineStage) return;
-    cineStage.setAttribute("data-chapter", n);
-    if (cineNum) cineNum.textContent = n < 10 ? "0" + n : String(n);
-    if (cineLabel) cineLabel.textContent = CHAPTER_NAMES[n] || "";
+  function setCoreChapter(n) {
+    if (!coreStage || n === currentCoreChapter) return;
+    currentCoreChapter = n;
+    coreStage.setAttribute("data-chapter", n);
+    if (coreNum) coreNum.textContent = n < 10 ? "0" + n : String(n);
+    if (coreLabel) coreLabel.textContent = CHAPTER_NAMES[n] || "";
+    if (coreOrb) coreOrb.setAttribute("data-state", ORB_STATES[n] || "dormant");
 
-    cineChapters.forEach(function (c) {
+    coreChapters.forEach(function (c) {
       c.classList.toggle("active", c.getAttribute("data-chapter-trigger") === String(n));
     });
 
     document.querySelectorAll("#cpChat .bubble[data-sig]").forEach(function (b) {
       var mark = SIG_MARK[b.getAttribute("data-sig")];
-      CINE_MARKS.forEach(function (m) { b.classList.remove(m); });
+      CORE_MARKS.forEach(function (m) { b.classList.remove(m); });
       if (n === 3 && mark) b.classList.add(mark);
     });
 
     var chatLayer = document.getElementById("cpChat");
     var sendLayer = document.getElementById("cpSend");
     var shareLayer = document.getElementById("cpShare");
-    if (chatLayer) chatLayer.classList.toggle("active", n <= 3);
-    if (cpVerdict) cpVerdict.classList.toggle("active", n === 4);
+    if (chatLayer) chatLayer.classList.toggle("active", n <= 4);
     if (sendLayer) sendLayer.classList.toggle("active", n === 5);
     if (shareLayer) shareLayer.classList.toggle("active", n === 6);
 
+    if (coreVerdictPanel) coreVerdictPanel.classList.toggle("active", n === 4);
+    var replyPanel = document.getElementById("coreReplyPanel");
+    if (replyPanel) replyPanel.classList.toggle("active", n === 5);
+    var shareScene = document.getElementById("coreShareScene");
+    if (shareScene) shareScene.classList.toggle("active", n === 6);
+
+    if (coreLine) {
+      var next = CHAPTER_LINES[n] || "";
+      function swapIn() {
+        coreLine.innerHTML = next;
+        if (!reduceMotion) requestAnimationFrame(function () { coreLine.classList.remove("swap"); });
+      }
+      if (reduceMotion) swapIn();
+      else { coreLine.classList.add("swap"); setTimeout(swapIn, 200); }
+    }
+
     if (n === 4 && !verdictCounted && !reduceMotion) {
       verdictCounted = true;
-      var s = cpVerdict && cpVerdict.querySelector("[data-count]");
+      var s = coreVerdictPanel && coreVerdictPanel.querySelector("[data-count]");
       if (s) countUp(s);
     }
   }
 
-  if (cineStage && cineChapters.length && supportsIO) {
-    var cineIO = new IntersectionObserver(function (entries) {
+  if (coreStage && coreChapters.length && supportsIO) {
+    var coreIO = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {
         if (entry.isIntersecting) {
-          setCineChapter(parseInt(entry.target.getAttribute("data-chapter-trigger"), 10));
+          setCoreChapter(parseInt(entry.target.getAttribute("data-chapter-trigger"), 10));
         }
       });
     }, { rootMargin: "-45% 0px -45% 0px", threshold: 0 });
-    cineChapters.forEach(function (c) { cineIO.observe(c); });
-  } else if (cineStage) {
-    setCineChapter(6);
+    coreChapters.forEach(function (c) { coreIO.observe(c); });
+  } else if (coreStage) {
+    setCoreChapter(6);
   }
 
   /* ---------- receipts: annotations highlight bubbles ---------- */

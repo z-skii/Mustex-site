@@ -99,44 +99,51 @@
 
 <!-- ======================= HERO ======================= -->
 <section class="hero" id="top">
-  <div class="blob" aria-hidden="true"></div>
-  <div class="wrap hero-inner">
-    <div class="hero-copy">
-      <h1 class="display">
-        <span>Stop rereading</span>
-        <span>the chat.</span>
-      </h1>
-      <p class="lede">
-        Drop in the conversation. MUSTEX breaks down the signals, effort, and
-        energy — then helps you figure out your next move.
-      </p>
-      <div class="hero-ctas">
-        <a class="btn btn-primary" href="#download">Get MUSTEX</a>
-        <a class="btn btn-ghost" href="#read">See a read ↓</a>
-      </div>
-      <p class="hero-sub">Coming soon on the App Store · No account needed</p>
-      <p class="sig">Read between the lines.</p>
+  <div class="hero-world" aria-hidden="true">
+    <div class="core-orb hero-orb" data-state="dormant">
+      <div class="orb-glow"></div>
+      <svg class="orb-ring" viewBox="0 0 200 200"><circle cx="100" cy="100" r="86" /><circle class="orb-ring-seg" cx="100" cy="100" r="86" /></svg>
+      <div class="orb-orbit orbit-a"><span class="orb-dot"></span></div>
+      <div class="orb-orbit orbit-b"><span class="orb-dot"></span></div>
+      <div class="orb-orbit orbit-c"><span class="orb-dot"></span></div>
+      <div class="orb-core-dot"></div>
     </div>
+  </div>
 
-    <div class="hero-visual" aria-label="MUSTEX reading a conversation">
-      <div class="phone" aria-hidden="true">
-        <img class="screen-img" src="assets/screens/hero.png" alt="" />
-        <div class="phone-screen">
-          <p class="chat-day">Tue 9:42 PM</p>
-          <div class="bubble me">so are we still on for friday?</div>
-          <div class="bubble them">yeah maybe! i'll let you know</div>
-          <div class="bubble me">okay cool, there's that new place downtown</div>
-          <div class="bubble me">or we could just do the usual spot</div>
-          <p class="chat-day">Wed 11:15 AM</p>
-          <div class="bubble them marked">haha nice</div>
-          <div class="bubble me">so… friday? 👀</div>
-          <div class="bubble them">omg this week has been crazy</div>
-        </div>
+  <div class="hero-phone-stage" aria-label="MUSTEX reading a conversation">
+    <div class="phone hero-phone">
+      <img class="screen-img" src="assets/screens/hero.png" alt="" />
+      <div class="phone-screen">
+        <p class="chat-day">Tue 9:42 PM</p>
+        <div class="bubble me">so are we still on for friday?</div>
+        <div class="bubble them">yeah maybe! i'll let you know</div>
+        <div class="bubble me">okay cool, there's that new place downtown</div>
+        <div class="bubble me">or we could just do the usual spot</div>
+        <p class="chat-day">Wed 11:15 AM</p>
+        <div class="bubble them marked">haha nice</div>
+        <div class="bubble me">so… friday? 👀</div>
+        <div class="bubble them">omg this week has been crazy</div>
       </div>
-      <p class="float-note fn-1" data-reveal>"Maybe" twice. Zero plans.</p>
-      <p class="float-note fn-2" data-reveal>You're <b>carrying</b> this one.</p>
-      <p class="float-note fn-score" data-reveal><span class="num" data-count="5.4">5.4</span>Interested, not invested.</p>
     </div>
+    <p class="float-note fn-1" data-reveal>"Maybe" twice. Zero plans.</p>
+    <p class="float-note fn-score" data-reveal><span class="num" data-count="5.4">5.4</span>Interested, not invested.</p>
+  </div>
+
+  <div class="hero-copy">
+    <h1 class="display">
+      <span>Stop rereading</span>
+      <span>the chat.</span>
+    </h1>
+    <p class="lede">
+      Drop in the conversation. MUSTEX breaks down the signals, effort, and
+      energy — then helps you figure out your next move.
+    </p>
+    <div class="hero-ctas">
+      <a class="btn btn-primary" href="#download">Get MUSTEX</a>
+      <a class="btn btn-ghost" href="#read">See a read ↓</a>
+    </div>
+    <p class="hero-sub">Coming soon on the App Store · No account needed</p>
+    <p class="sig">Read between the lines.</p>
   </div>
 </section>
 
@@ -162,120 +169,138 @@
   </div>
 </section>
 
-<!-- ======================= CINEMATIC: THE READ, LIVE ======================= -->
-<section class="cine" id="how" aria-labelledby="cine-h">
-  <div class="blob cine-blob" aria-hidden="true"></div>
-  <div class="wrap">
-  <div class="cine-head" data-reveal>
-    <span class="kicker accent">How it works</span>
-    <h2 id="cine-h" class="display">Watch MUSTEX read a chat.</h2>
-    <p class="lede">One conversation, start to finish. Scroll to watch it move from screenshot to verdict to reply.</p>
+<!-- ======================= THE CORE: full-screen connected sequence ======================= -->
+<section class="core" id="how" aria-label="How MUSTEX works">
+
+  <div class="visually-hidden">
+    <h2>How MUSTEX works</h2>
+    <ol>
+      <li>The Chat — stop rereading the chat. Drop in the screenshot.</li>
+      <li>Reading it — MUSTEX reads tone, effort, timing, and energy across the whole exchange.</li>
+      <li>The Signals — every signal has receipts, tied to the actual messages that caused it.</li>
+      <li>The Verdict — now you know what it means: a score out of 10, a headline, and a confidence level.</li>
+      <li>What to Send — now you know what to send: five reply styles, drafted and ready to copy.</li>
+      <li>Share it — send the read to the group chat with a shareable verdict card.</li>
+    </ol>
   </div>
 
-  <div class="cine-grid">
-    <div class="cine-sticky">
-      <div class="cine-stage" id="cineStage" data-chapter="1" aria-hidden="true">
-        <div class="cine-rings"></div>
+  <div class="core-track">
+    <div class="core-sticky">
+      <div class="core-world" aria-hidden="true">
+        <svg class="core-lines" viewBox="0 0 1600 900" preserveAspectRatio="none">
+          <path class="line line-a" d="M -100 220 C 400 60, 950 340, 1700 160" />
+          <path class="line line-b" d="M -100 680 C 500 820, 1050 480, 1700 640" />
+        </svg>
+        <div class="core-grid-fx"></div>
+      </div>
 
-        <p class="cine-progress"><b id="cineNum">01</b><i>/ 06</i><em id="cineLabel">The Chat</em></p>
+      <div class="core-stage" id="coreStage" data-chapter="1" aria-hidden="true">
 
-        <div class="phone cine-phone" id="cinePhone">
-          <div class="phone-screen cp">
+        <div class="core-orb" id="coreOrb" data-state="dormant">
+          <div class="orb-glow"></div>
+          <svg class="orb-ring" viewBox="0 0 200 200"><circle cx="100" cy="100" r="86" /><circle class="orb-ring-seg" cx="100" cy="100" r="86" /></svg>
+          <div class="orb-orbit orbit-a"><span class="orb-dot"></span></div>
+          <div class="orb-orbit orbit-b"><span class="orb-dot"></span></div>
+          <div class="orb-orbit orbit-c"><span class="orb-dot"></span></div>
+          <div class="orb-core-dot"></div>
+        </div>
 
-            <div class="cp-layer cp-chat active" id="cpChat">
-              <p class="chat-day">Tue 9:42 PM</p>
-              <div class="bubble me" data-sig="ask">so are we still on for friday?</div>
-              <div class="bubble them" data-sig="vague">yeah maybe! i'll let you know</div>
-              <div class="bubble me" data-sig="ask">okay cool, there's that new place downtown</div>
-              <div class="bubble me" data-sig="ask">or we could just do the usual spot</div>
-              <p class="chat-day">Wed 11:15 AM</p>
-              <div class="bubble them">haha nice</div>
-              <div class="bubble me" data-sig="ask">so… friday? 👀</div>
-              <div class="bubble them" data-sig="deflect">omg this week has been crazy</div>
-              <div class="cine-scan"></div>
-              <div class="cine-chips">
-                <span class="chip">Tone</span><span class="chip">Effort</span><span class="chip">Timing</span><span class="chip">Energy</span>
+        <div class="core-phone-slot" id="corePhoneSlot">
+          <div class="phone core-phone" id="corePhone">
+            <div class="phone-screen cp" id="corePhoneScreen">
+
+              <div class="cp-layer cp-chat active" id="cpChat">
+                <p class="chat-day">Tue 9:42 PM</p>
+                <div class="bubble me" data-sig="ask">so are we still on for friday?</div>
+                <div class="bubble them" data-sig="vague">yeah maybe! i'll let you know</div>
+                <div class="bubble me" data-sig="ask">okay cool, there's that new place downtown</div>
+                <div class="bubble me" data-sig="ask">or we could just do the usual spot</div>
+                <p class="chat-day">Wed 11:15 AM</p>
+                <div class="bubble them">haha nice</div>
+                <div class="bubble me" data-sig="ask">so… friday? 👀</div>
+                <div class="bubble them" data-sig="deflect">omg this week has been crazy</div>
+                <div class="core-scan"></div>
               </div>
-            </div>
 
-            <div class="cp-layer cp-verdict rp" id="cpVerdict">
-              <span class="rp-k">The verdict</span>
-              <div class="rp-score-row"><span class="rp-score" data-count="5.4">5.4</span><span class="rp-outof">/10</span></div>
-              <p class="rp-headline">Interested, not invested.</p>
-              <span class="rp-conf">High confidence</span>
-              <div class="rp-sep"></div>
-              <span class="rp-k">Signals</span>
-              <div class="rp-flag good"><span class="dot"></span>They start conversations unprompted.</div>
-              <div class="rp-flag bad"><span class="dot"></span>Goes vague when plans get specific.</div>
-              <div class="rp-sep"></div>
-              <span class="rp-k">Who's carrying this</span>
-              <div class="rp-effort"><div class="you"></div></div>
-              <div class="rp-effort-legend"><span>You · 68%</span><span>Them · 32%</span></div>
-            </div>
-
-            <div class="cp-layer cp-send" id="cpSend">
-              <span class="rp-k">What to send</span>
-              <div class="cine-modes">
-                <span class="cmode active">🔥</span><span class="cmode">😈</span><span class="cmode">🧊</span><span class="cmode">❤️</span><span class="cmode">😂</span>
+              <div class="cp-layer cp-send" id="cpSend">
+                <span class="rp-k">What to send</span>
+                <p class="core-reply-mini">“Let's lock Friday — 8 at the new place downtown?”</p>
               </div>
-              <p class="cine-mode-label">Best</p>
-              <div class="cine-reply">“Let's lock Friday — 8 at the new place downtown?”</div>
-            </div>
 
-            <div class="cp-layer cp-share" id="cpShare">
-              <div class="cine-sharecard">
-                <span class="wordmark">MUSTEX</span>
-                <span class="rp-k">The verdict</span>
-                <p class="cine-share-score">5.4<small>/10</small></p>
-                <h3>Interested, not invested.</h3>
-                <div class="cine-share-flags"><span><span class="dot bad"></span>1 red flag</span><span><span class="dot good"></span>1 green flag</span></div>
+              <div class="cp-layer cp-share" id="cpShare">
+                <div class="core-share-mini">
+                  <span class="wordmark">MUSTEX</span>
+                  <p class="core-share-mini-score">5.4<small>/10</small></p>
+                  <h3>Interested, not invested.</h3>
+                </div>
               </div>
-            </div>
 
+            </div>
+          </div>
+
+          <p class="core-note" id="coreNote">“Maybe” twice. Zero plans.</p>
+        </div>
+
+        <!-- chapter 3 only: messages detach from the phone as physical objects -->
+        <div class="float-msg fm-1"><p>“yeah maybe! i'll let you know”</p><span class="float-msg-line"></span><span class="float-msg-tag bad">Low effort</span></div>
+        <div class="float-msg fm-2"><p>“so… friday? 👀”</p><span class="float-msg-line"></span><span class="float-msg-tag">You asked again</span></div>
+        <div class="float-msg fm-3"><p>“omg this week has been crazy”</p><span class="float-msg-line"></span><span class="float-msg-tag bad">Deflected</span></div>
+
+        <!-- chapter 4 only: the verdict builds as its own object, not inside the phone -->
+        <div class="core-panel core-verdict-panel" id="coreVerdictPanel">
+          <span class="rp-k">The verdict</span>
+          <div class="rp-score-row"><span class="rp-score" data-count="5.4">5.4</span><span class="rp-outof">/10</span></div>
+          <p class="rp-headline">Interested, not invested.</p>
+          <span class="rp-conf">High confidence</span>
+          <div class="rp-sep"></div>
+          <div class="rp-flag good"><span class="dot"></span>They start conversations unprompted.</div>
+          <div class="rp-flag bad"><span class="dot"></span>Goes vague when plans get specific.</div>
+          <div class="rp-sep"></div>
+          <span class="rp-k">Who's carrying this</span>
+          <div class="rp-effort"><div class="you"></div></div>
+          <div class="rp-effort-legend"><span>You · 68%</span><span>Them · 32%</span></div>
+        </div>
+
+        <!-- chapter 5 only: reply controls float free of any card -->
+        <div class="core-panel core-reply-panel" id="coreReplyPanel">
+          <span class="rp-k">What to send</span>
+          <div class="core-reply-pills">
+            <span class="pill active">🔥 Best</span><span class="pill">😈 Bold</span><span class="pill">🧊 Nonchalant</span>
+          </div>
+          <p class="core-reply-text">“Let's lock Friday — 8 at the new place downtown?”</p>
+        </div>
+
+        <!-- chapter 6 only: the result converges and lands in a group chat -->
+        <div class="core-panel core-share-scene" id="coreShareScene">
+          <div class="core-sharecard">
+            <span class="wordmark">MUSTEX</span>
+            <p class="core-share-score">5.4<small>/10</small></p>
+            <h3>Interested, not invested.</h3>
+            <div class="core-share-flags"><span><span class="dot bad"></span>1 red flag</span><span><span class="dot good"></span>1 green flag</span></div>
+          </div>
+          <div class="core-gc">
+            <span class="core-gc-avatars"><i></i><i></i><i></i></span>
+            <div class="core-gc-bubble">sent the read 👀</div>
+            <span class="core-gc-delivered">Delivered</span>
           </div>
         </div>
 
-        <p class="cine-note" id="cineNote">“Maybe” twice. Zero plans.</p>
+        <div class="core-caption">
+          <span class="core-progress"><b id="coreNum">01</b> / 06 <em id="coreLabel">The Chat</em></span>
+          <h2 class="core-line" id="coreLine">STOP REREADING<br>THE CHAT.</h2>
+        </div>
+
       </div>
     </div>
 
-    <div class="cine-chapters">
-      <div class="cine-chapter" data-chapter-trigger="1" data-reveal>
-        <p class="step-num">01 · The Chat</p>
-        <h3>The conversation you keep rereading.</h3>
-        <p>Drop in the screenshot. MUSTEX starts with exactly what was sent — nothing summarized yet.</p>
-      </div>
-      <div class="cine-chapter" data-chapter-trigger="2" data-reveal>
-        <p class="step-num">02 · Analysis</p>
-        <h3>It's not reading the words. It's reading the dynamic.</h3>
-        <p>Tone, effort, timing, energy — MUSTEX looks across the whole exchange, not just the last text you can't stop staring at.</p>
-      </div>
-      <div class="cine-chapter" data-chapter-trigger="3" data-reveal>
-        <p class="step-num">03 · Signals</p>
-        <h3>Every flag points at a real moment.</h3>
-        <ul class="cine-siglist">
-          <li><span class="dot"></span>You asked about Friday three times.</li>
-          <li><span class="dot bad"></span>"Maybe" — vague, twice.</li>
-          <li><span class="dot bad"></span>Deflects when plans get specific.</li>
-        </ul>
-      </div>
-      <div class="cine-chapter" data-chapter-trigger="4" data-reveal>
-        <p class="step-num">04 · The Read</p>
-        <h3>The verdict, scored.</h3>
-        <p>A number out of 10, a headline, and how confident MUSTEX is in it — plus who's actually carrying the conversation.</p>
-      </div>
-      <div class="cine-chapter" data-chapter-trigger="5" data-reveal>
-        <p class="step-num">05 · What to Send</p>
-        <h3>Then it drafts your next move.</h3>
-        <p>Best, Bold, Nonchalant, Genuine, or Funny — a reply ready to send, not just an analysis to sit with.</p>
-      </div>
-      <div class="cine-chapter" data-chapter-trigger="6" data-reveal>
-        <p class="step-num">06 · Share</p>
-        <h3>Built to land in the group chat.</h3>
-        <p>The read becomes a card made for sharing — because you were going to screenshot it for them anyway.</p>
-      </div>
+    <div class="core-triggers">
+      <div data-chapter-trigger="1"></div>
+      <div data-chapter-trigger="2"></div>
+      <div data-chapter-trigger="3"></div>
+      <div data-chapter-trigger="4"></div>
+      <div data-chapter-trigger="5"></div>
+      <div data-chapter-trigger="6"></div>
     </div>
-  </div>
   </div>
 </section>
 
@@ -476,7 +501,7 @@
       </p>
     </div>
 
-    <div class="share-visual">
+    <div class="share-visual" data-reveal="fade">
       <div class="share-card" id="shareCard" aria-label="Example shareable verdict card">
         <div class="share-piece sp-1">
           <span class="wordmark">MUSTEX</span>
@@ -500,6 +525,14 @@
         <div class="share-piece sp-5">
           <span class="sp-watermark">mustex.app</span>
         </div>
+      </div>
+
+      <span class="share-arrow" aria-hidden="true">→</span>
+
+      <div class="share-gc">
+        <span class="share-gc-avatars"><i></i><i></i><i></i></span>
+        <div class="share-gc-bubble">sent the read 👀</div>
+        <span class="share-gc-delivered">Delivered</span>
       </div>
     </div>
   </div>
