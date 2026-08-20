@@ -593,37 +593,57 @@ section { position: relative; }
 
 .core-stage { position: absolute; inset: 0; z-index: 1; }
 
-/* the analysis core sits behind everything, evolving with the story —
-   starts modest at chapter 1, grows through analysis/signals, recedes
-   once the verdict/reply panels take over, collapses at share. */
+/* ---------- the camera system ----------
+   One persistent phone + one persistent analysis core, tracked by a
+   single "camera" per chapter instead of a pile of unrelated transform
+   overrides. Each chapter only sets where the camera is looking
+   (--phone-x/--phone-y), how close it's pushed in (--phone-scale,
+   --core-scale) and the phone's tilt (--phone-rotate) — every property
+   transitions together so switching chapters reads as one continuous
+   move, not a cut. Base phone size is driven by BOTH viewport width
+   and height (min() of vw/vh, capped) so it never needs a discrete
+   per-breakpoint scale hack; --phone-scale then pushes in/out relative
+   to that base for the camera effect. */
+.core-stage {
+  --phone-x: 50%;
+  --phone-y: 47%;
+  --phone-scale: 1;
+  --phone-rotate: 0deg;
+  --phone-opacity: 1;
+  --core-scale: 1;
+  --phone-w: clamp(196px, min(17vw, 32vh), 292px);
+}
+.core-stage[data-chapter="1"] { --phone-x: 60%; --phone-y: 45%; --phone-scale: 1; --phone-rotate: 6deg; --core-scale: 0.88; }
+.core-stage[data-chapter="2"] { --phone-x: 50%; --phone-y: 44%; --phone-scale: 1.08; --phone-rotate: -2deg; --core-scale: 1.08; }
+.core-stage[data-chapter="3"] { --phone-x: 37%; --phone-y: 41%; --phone-scale: 1.14; --phone-rotate: -1deg; --core-scale: 1.22; }
+.core-stage[data-chapter="4"] { --phone-x: 32%; --phone-y: 44%; --phone-scale: 0.92; --phone-rotate: 0deg; --core-scale: 1; }
+.core-stage[data-chapter="5"] { --phone-x: 32%; --phone-y: 44%; --phone-scale: 0.92; --phone-rotate: 1deg; --core-scale: 0.9; }
+.core-stage[data-chapter="6"] { --phone-x: 50%; --phone-y: 48%; --phone-scale: 0.6; --phone-rotate: -3deg; --phone-opacity: 0.55; --core-scale: 0.55; }
+
+/* the analysis core sits behind everything, tracking the same camera */
 .core-stage .core-orb {
   position: absolute; top: 50%; left: 50%;
-  transform: translate(-50%, -50%) scale(0.85);
+  transform: translate(-50%, -50%) scale(var(--core-scale));
   width: 300px; height: 300px;
   z-index: 1;
-  transition: opacity 0.8s ease, transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: opacity 0.8s ease, transform 1s cubic-bezier(0.16, 1, 0.3, 1);
 }
-.core-stage[data-chapter="2"] .core-orb { transform: translate(-50%, -50%) scale(1.1); }
-.core-stage[data-chapter="3"] .core-orb { transform: translate(-50%, -50%) scale(1.22); }
-.core-stage[data-chapter="4"] .core-orb { transform: translate(-50%, -50%) scale(1); }
-.core-stage[data-chapter="5"] .core-orb { transform: translate(-50%, -50%) scale(0.92); }
-.core-stage[data-chapter="6"] .core-orb { transform: translate(-50%, -50%) scale(0.6); }
 
-/* the phone: a cinematic object that repositions per chapter — smaller
-   and framed with breathing room at chapter 1, growing more immersive
-   through analysis/signals, then receding as the verdict/reply panels
-   and finally the share scene take over. */
+/* the phone: one persistent object, moved/scaled/tilted by the camera */
 .core-phone-slot {
-  position: absolute; top: 50%; z-index: 3;
-  transition: left 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.6s ease;
+  position: absolute;
+  top: var(--phone-y); left: var(--phone-x);
+  z-index: 3;
+  transform: translate(-50%, -50%) rotate(var(--phone-rotate)) scale(var(--phone-scale));
+  opacity: var(--phone-opacity);
+  transition: top 1s cubic-bezier(0.16, 1, 0.3, 1), left 1s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 1s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.6s ease;
 }
-.core-phone-slot .phone { width: clamp(200px, 17vw, 270px); box-shadow: 0 0 0 6px #101017, 0 50px 120px rgba(0, 0, 0, 0.6); }
-.core-stage[data-chapter="1"] .core-phone-slot { left: 72%; transform: translate(-50%, -50%) rotate(5deg) scale(0.76); }
-.core-stage[data-chapter="2"] .core-phone-slot { left: 50%; transform: translate(-50%, -50%) rotate(-2deg) scale(0.98); }
-.core-stage[data-chapter="3"] .core-phone-slot { left: 36%; transform: translate(-50%, -50%) rotate(-1deg) scale(1.04); }
-.core-stage[data-chapter="4"] .core-phone-slot { left: 24%; transform: translate(-50%, -50%) rotate(0deg) scale(0.8); }
-.core-stage[data-chapter="5"] .core-phone-slot { left: 24%; transform: translate(-50%, -50%) rotate(1deg) scale(0.8); }
-.core-stage[data-chapter="6"] .core-phone-slot { left: 50%; transform: translate(-50%, -50%) rotate(-3deg) scale(0.55); opacity: 0.5; }
+.core-phone-slot .phone {
+  width: var(--phone-w);
+  box-shadow: 0 0 0 6px #101017, 0 50px 120px rgba(0, 0, 0, 0.6);
+}
+.core-phone-slot .phone-screen { min-height: calc(var(--phone-w) * 1.93); }
 
 .core-note {
   position: absolute; bottom: -8%; left: 50%; transform: translateX(-50%);
@@ -783,15 +803,11 @@ section { position: relative; }
 .core-line.swap { opacity: 0; transform: translateY(10px); }
 
 @media (min-width: 901px) and (max-height: 820px) {
+  /* --phone-w already contracts on short heights via its 32vh term —
+     no separate per-chapter scale hack needed here anymore. Only the
+     pieces the camera formula doesn't cover get tightened. */
   .core-sticky { height: 100vh; }
   .core-stage .core-orb { width: 240px; height: 240px; }
-  .core-phone-slot .phone { width: clamp(160px, 13vw, 210px); }
-  .core-stage[data-chapter="1"] .core-phone-slot { transform: translate(-50%, -50%) rotate(5deg) scale(0.7); }
-  .core-stage[data-chapter="2"] .core-phone-slot { transform: translate(-50%, -50%) rotate(-2deg) scale(0.88); }
-  .core-stage[data-chapter="3"] .core-phone-slot { transform: translate(-50%, -50%) rotate(-1deg) scale(0.94); }
-  .core-stage[data-chapter="4"] .core-phone-slot,
-  .core-stage[data-chapter="5"] .core-phone-slot { transform: translate(-50%, -50%) rotate(0deg) scale(0.72); }
-  .core-stage[data-chapter="6"] .core-phone-slot { transform: translate(-50%, -50%) rotate(-3deg) scale(0.48); }
   .core-line { font-size: clamp(24px, 3.2vw, 42px); }
   .core-caption { bottom: 6%; max-width: 50vw; }
   .core-panel { padding: 18px; width: min(300px, 34vw); }
@@ -804,10 +820,11 @@ section { position: relative; }
   .core-stage {
     position: static; inset: auto;
     display: flex; flex-direction: column; align-items: center; gap: 14px;
+    --phone-w: min(60vw, 230px);
   }
   .core-stage .core-orb { position: static; transform: none; width: 140px; height: 140px; margin: 0 auto; }
   .core-phone-slot { position: static; transform: none !important; left: auto; }
-  .core-phone-slot .phone { width: min(60vw, 230px); margin: 0 auto; }
+  .core-phone-slot .phone { margin: 0 auto; }
   .core-note { position: static; transform: none; display: inline-block; margin: 8px auto 0; opacity: 1 !important; }
   .core-stage:not([data-chapter="1"]) .core-note { display: none; }
   .float-msg { position: static; max-width: none; margin: 0 auto; opacity: 0; height: 0; overflow: hidden; transition: none; }
