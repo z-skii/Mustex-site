@@ -178,35 +178,69 @@
     }
   }
 
-  if (coreStage && coreChapters.length && supportsIO) {
-    /* rootMargin percentages are resolved against the CURRENT visual
-       viewport — on iOS Safari that viewport's height changes as the
-       address bar collapses/expands mid-scroll, which can make the
-       observer flip between two adjacent chapters (and their two
-       different --phone-scale values) purely from the toolbar
-       animation, with no further scrolling. That reads as the phone
-       "zooming" in and out. A short debounce coalesces that flapping
-       down to the single chapter the user actually settles on, while
-       staying imperceptible for real scroll-driven changes. */
-    var pendingChapter = null;
-    var chapterDebounce = null;
-    function scheduleCoreChapter(n) {
-      pendingChapter = n;
-      if (chapterDebounce) clearTimeout(chapterDebounce);
-      chapterDebounce = setTimeout(function () {
-        setCoreChapter(pendingChapter);
-      }, 80);
-    }
-    var coreIO = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (entry.isIntersecting) {
-          scheduleCoreChapter(parseInt(entry.target.getAttribute("data-chapter-trigger"), 10));
+  if (coreStage && coreChapters.length) {
+    /* Deterministic "closest trigger to viewport center" on scroll,
+       rAF-throttled, instead of IntersectionObserver + a debounce.
+       Two problems with the previous approach: (1) rootMargin
+       percentages are resolved against the CURRENT visual viewport —
+       on iOS Safari that viewport's height changes as the address bar
+       collapses/expands mid-scroll, which could flip the observer
+       between chapters with no further scrolling; (2) the debounce
+       added to coalesce that "cancel and replace with whichever fires
+       last" — which silently drops any chapter that gets superseded
+       within the debounce window during a fast scroll (the reported
+       "skips from 2 to 4"). This recomputes fresh from actual
+       getBoundingClientRect()s every animation frame (one read, no
+       interleaved writes, so no layout thrash) and always applies
+       whichever chapter is genuinely centered right now — nothing to
+       drop, nothing that depends on a stale cached viewport size. */
+    var coreTriggerEls = Array.prototype.slice.call(coreChapters);
+    var coreScrollTicking = false;
+    var lastAppliedCoreChapter = null;
+    function updateCoreChapterFromScroll() {
+      coreScrollTicking = false;
+      var viewportCenter = window.innerHeight / 2;
+      var closestEl = null;
+      var closestDist = Infinity;
+      var currentDist = Infinity;
+      for (var i = 0; i < coreTriggerEls.length; i++) {
+        var el = coreTriggerEls[i];
+        var r = el.getBoundingClientRect();
+        if (r.bottom < 0 || r.top > window.innerHeight) continue; // nowhere near the viewport
+        var dist = Math.abs((r.top + r.height / 2) - viewportCenter);
+        if (parseInt(el.getAttribute("data-chapter-trigger"), 10) === lastAppliedCoreChapter) {
+          currentDist = dist;
         }
-      });
-    }, { rootMargin: "-45% 0px -45% 0px", threshold: 0 });
-    coreChapters.forEach(function (c) { coreIO.observe(c); });
-  } else if (coreStage) {
-    setCoreChapter(6);
+        if (dist < closestDist) {
+          closestDist = dist;
+          closestEl = el;
+        }
+      }
+      if (!closestEl) return;
+      var candidate = parseInt(closestEl.getAttribute("data-chapter-trigger"), 10);
+      /* Hysteresis: a chapter's own panel opening/closing briefly changes
+         the sticky box's own height (grid-rows/opacity transitions on
+         .core-panel), which nudges every trigger below it up or down by
+         that same amount for the ~0.4s the transition runs. Right at a
+         boundary that can make the "closest" trigger flicker between two
+         neighbors with no real scrolling. Only switch away from the
+         current chapter when the new one is clearly closer, not on a
+         near-tie — real scrolling quickly exceeds this margin anyway. */
+      if (lastAppliedCoreChapter !== null && candidate !== lastAppliedCoreChapter &&
+          currentDist !== Infinity && closestDist > currentDist - 24) {
+        return;
+      }
+      lastAppliedCoreChapter = candidate;
+      setCoreChapter(candidate);
+    }
+    function onCoreScroll() {
+      if (!coreScrollTicking) {
+        coreScrollTicking = true;
+        requestAnimationFrame(updateCoreChapterFromScroll);
+      }
+    }
+    window.addEventListener("scroll", onCoreScroll, { passive: true });
+    updateCoreChapterFromScroll();
   }
 
   /* ---------- receipts: annotations highlight bubbles ---------- */

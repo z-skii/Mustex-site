@@ -828,7 +828,16 @@ section { position: relative; }
 
 @media (max-width: 900px) {
   .core-sticky {
-    position: sticky; top: 66px; height: auto; overflow: visible;
+    /* fixed, not auto — the moment this box's own height depends on
+       which panel is open, that height changes mid-transition, which
+       physically moves every .core-triggers element below it in the
+       document (siblings, normal flow) while the chapter-detection
+       algorithm is reading their position from the SAME scroll frame.
+       That feedback loop was the source of the chapter flickering
+       between two neighbors near a boundary. Big enough for the
+       tallest chapter's content at this breakpoint (verified against
+       the actual measured stack heights, not guessed). */
+    position: sticky; top: 66px; height: 780px; overflow: visible;
     padding: 12px 20px max(16px, env(safe-area-inset-bottom)) 20px;
   }
   .core-triggers > div { height: 82svh; }
@@ -932,7 +941,7 @@ section { position: relative; }
 @media (max-width: 900px) and (max-height: 700px) {
   /* short phones (SE-class, 375x667) — tighten further so nothing
      pushes past the fold. */
-  .core-sticky { top: 60px; padding-top: 8px; }
+  .core-sticky { top: 60px; padding-top: 8px; height: 660px; }
   .core-stage { gap: 4px; --phone-w: min(29vw, 112px); }
   .core-stage .core-orb { width: 54px; height: 54px; }
   .core-line { font-size: clamp(20px, 6.4vw, 28px); }
