@@ -5,15 +5,24 @@
   var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   var supportsIO = "IntersectionObserver" in window;
 
-  /* ---------- nav: scrolled state + mobile menu ---------- */
+  /* ---------- real screenshot slots ----------
+     Each .screen-img points at assets/screens/<name>.png.
+     If the file exists, it covers the CSS mockup.
+     If it 404s, remove the img so the mockup shows. */
+  document.querySelectorAll(".screen-img").forEach(function (img) {
+    function drop() { img.remove(); }
+    if (img.complete && img.naturalWidth === 0) drop();
+    else img.addEventListener("error", drop);
+  });
+
+  /* ---------- nav ---------- */
 
   var nav = document.getElementById("nav");
   var navToggle = document.getElementById("navToggle");
   var navMenu = document.getElementById("navMenu");
 
   function onScroll() {
-    if (window.scrollY > 12) nav.classList.add("scrolled");
-    else nav.classList.remove("scrolled");
+    nav.classList.toggle("scrolled", window.scrollY > 12);
   }
   window.addEventListener("scroll", onScroll, { passive: true });
   onScroll();
@@ -23,17 +32,14 @@
     navToggle.setAttribute("aria-expanded", "false");
     navToggle.setAttribute("aria-label", "Open menu");
   }
-
   navToggle.addEventListener("click", function () {
     var open = navMenu.classList.toggle("open");
     navToggle.setAttribute("aria-expanded", String(open));
     navToggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
   });
-
   navMenu.addEventListener("click", function (e) {
     if (e.target.closest("a")) closeMenu();
   });
-
   document.addEventListener("keydown", function (e) {
     if (e.key === "Escape" && navMenu.classList.contains("open")) {
       closeMenu();
@@ -41,16 +47,40 @@
     }
   });
 
-  /* ---------- reveal on scroll ---------- */
+  /* ---------- score count-up ---------- */
+
+  function countUp(el) {
+    var target = parseInt(el.getAttribute("data-count"), 10);
+    if (isNaN(target)) return;
+    var dur = 900;
+    var start = null;
+    function tick(ts) {
+      if (!start) start = ts;
+      var p = Math.min((ts - start) / dur, 1);
+      var eased = 1 - Math.pow(1 - p, 3);
+      el.textContent = Math.round(eased * target);
+      if (p < 1) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  }
+
+  /* ---------- reveal on scroll (+ trigger count-ups inside) ---------- */
 
   var revealEls = document.querySelectorAll("[data-reveal]");
+  function activate(el) {
+    el.classList.add("in");
+    if (!reduceMotion) {
+      el.querySelectorAll("[data-count]").forEach(countUp);
+      if (el.hasAttribute("data-count")) countUp(el);
+    }
+  }
   if (reduceMotion || !supportsIO) {
     revealEls.forEach(function (el) { el.classList.add("in"); });
   } else {
     var revealIO = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {
         if (entry.isIntersecting) {
-          entry.target.classList.add("in");
+          activate(entry.target);
           revealIO.unobserve(entry.target);
         }
       });
@@ -66,8 +96,7 @@
     var stepIO = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {
         if (entry.isIntersecting) {
-          var n = entry.target.getAttribute("data-step-trigger");
-          howPhone.setAttribute("data-step", n);
+          howPhone.setAttribute("data-step", entry.target.getAttribute("data-step-trigger"));
           stepTriggers.forEach(function (s) {
             s.classList.toggle("active", s === entry.target);
           });
@@ -76,12 +105,11 @@
     }, { rootMargin: "-45% 0px -45% 0px", threshold: 0 });
     stepTriggers.forEach(function (s) { stepIO.observe(s); });
   } else {
-    // No IO: show the final result state and mark all steps.
     if (howPhone) howPhone.setAttribute("data-step", "3");
     stepTriggers.forEach(function (s) { s.classList.add("active"); });
   }
 
-  /* ---------- evidence: annotations highlight bubbles ---------- */
+  /* ---------- receipts: annotations highlight bubbles ---------- */
 
   var annotations = document.querySelectorAll("[data-annotation]");
   var MARKS = ["marked", "marked-good", "marked-bad"];
@@ -91,7 +119,6 @@
       MARKS.forEach(function (m) { b.classList.remove(m); });
     });
   }
-
   function applyAnnotation(el) {
     clearMarks();
     var target = el.getAttribute("data-target");
@@ -99,9 +126,7 @@
     document
       .querySelectorAll('#evPhone .bubble[data-ev="' + target + '"]')
       .forEach(function (b) { b.classList.add(mark); });
-    annotations.forEach(function (a) {
-      a.classList.toggle("active", a === el);
-    });
+    annotations.forEach(function (a) { a.classList.toggle("active", a === el); });
   }
 
   if (annotations.length && supportsIO && !reduceMotion) {
@@ -112,7 +137,6 @@
     }, { rootMargin: "-40% 0px -40% 0px", threshold: 0 });
     annotations.forEach(function (a) { evIO.observe(a); });
   } else {
-    // Static fallback: show all annotation cards, highlight the first target.
     annotations.forEach(function (a) { a.classList.add("active"); });
     if (annotations[0]) applyAnnotation(annotations[0]);
   }
@@ -128,6 +152,7 @@
         entries.forEach(function (entry) {
           if (entry.isIntersecting) {
             shareCard.classList.add("assembled");
+            shareCard.querySelectorAll("[data-count]").forEach(countUp);
             shareIO.disconnect();
           }
         });
@@ -140,13 +165,14 @@
 
   document.querySelectorAll("[data-copy]").forEach(function (btn) {
     btn.addEventListener("click", function () {
-      var text = btn.closest(".reply").querySelector("p").textContent.replace(/^"|"$/g, "");
+      var text = btn.getAttribute("data-text") || "";
+      var original = btn.textContent;
       function done() {
         btn.classList.add("copied");
         btn.textContent = "Copied";
         setTimeout(function () {
           btn.classList.remove("copied");
-          btn.textContent = "Copy";
+          btn.textContent = original;
         }, 1600);
       }
       if (navigator.clipboard && navigator.clipboard.writeText) {
@@ -167,7 +193,6 @@
       panel.style.maxHeight = open ? "0px" : panel.scrollHeight + "px";
     });
   });
-  // Keep open panels correct if the viewport resizes.
   window.addEventListener("resize", function () {
     document.querySelectorAll('.acc-btn[aria-expanded="true"]').forEach(function (btn) {
       var panel = document.getElementById(btn.getAttribute("aria-controls"));

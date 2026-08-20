@@ -1,26 +1,20 @@
 # MUSTEX site assets
 
-Current files:
-
 - `favicon.svg` — browser tab icon (brand mark).
-- `og.png` — 1200×630 social share image used by Open Graph / Twitter cards.
+- `og.png` — 1200×630 social share image.
+- `screens/` — REAL app screenshots. Auto-wired: drop a PNG at the right
+  filename and it instantly replaces the CSS mockup in that phone frame
+  (script.js handles the swap; missing files fall back to the mockup).
 
-## Dropping in real app screenshots later
+## Screenshot slots currently wired in index.html
 
-The product visuals on the site are currently built in HTML/CSS (clearly illustrative).
-To swap in real App Store screenshots:
+| File                  | Where it appears                |
+|-----------------------|---------------------------------|
+| screens/hero.png      | Hero phone (first viewport)     |
+| screens/verdict.png   | "The Read" section result phone |
 
-1. Export PNGs at 2× (e.g. 1179×2556 for 6.1" iPhone) into `assets/screens/`,
-   named by what they show, e.g.:
-   - `screens/home.png`
-   - `screens/upload.png`
-   - `screens/analyzing.png`
-   - `screens/verdict.png`
-   - `screens/share-card.png`
-2. In `index.html`, each CSS phone mockup is wrapped in a
-   `<div class="phone" data-screen="...">`. Replace the inner markup of a phone
-   with `<img src="assets/screens/<name>.png" alt="...">` — the `.phone img`
-   rule in `styles.css` already handles sizing and corner rounding.
-3. Keep images lazy-loaded: `loading="lazy"` (the hero image should NOT be lazy).
+Export at 2× (e.g. 1179×2556). Portrait, full-screen captures. Keep them
+CURRENT — outdated UI hurts more than the mockup.
 
-If you replace `og.png`, keep it 1200×630.
+To add more slots later, add inside any `.phone`:
+`<img class="screen-img" src="assets/screens/<name>.png" alt="" loading="lazy" />`

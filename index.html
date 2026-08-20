@@ -25,7 +25,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&display=swap" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,500;0,600;0,700;1,500&display=swap" />
 <link rel="stylesheet" href="styles.css" />
 
 <script type="application/ld+json">
@@ -85,7 +85,7 @@
       <ul class="nav-links">
         <li><a href="#how">How it works</a></li>
         <li><a href="#read">The Read</a></li>
-        <li><a href="#features">Features</a></li>
+        <li><a href="#receipts">Receipts</a></li>
         <li><a href="#faq">FAQ</a></li>
       </ul>
       <div class="nav-cta">
@@ -99,25 +99,28 @@
 
 <!-- ======================= HERO ======================= -->
 <section class="hero" id="top">
-  <div class="wrap">
+  <div class="blob" aria-hidden="true"></div>
+  <div class="wrap hero-inner">
     <div class="hero-copy">
       <h1 class="display">
-        Stop rereading the chat.
-        <span class="line-2">Read between the lines.</span>
+        <span>Stop rereading</span>
+        <span>the chat.</span>
       </h1>
       <p class="lede">
-        Drop in the conversation. MUSTEX breaks down the signals, effort, and energy —
-        then helps you figure out your next move.
+        Drop in the conversation. MUSTEX breaks down the signals, effort, and
+        energy — then helps you figure out your next move.
       </p>
       <div class="hero-ctas">
         <a class="btn btn-primary" href="#download">Get MUSTEX</a>
         <a class="btn btn-ghost" href="#read">See a read ↓</a>
       </div>
       <p class="hero-sub">Coming soon on the App Store · No account needed</p>
+      <p class="sig">Read between the lines.</p>
     </div>
 
-    <div class="hero-visual" aria-label="Illustration of MUSTEX analyzing a conversation">
+    <div class="hero-visual" aria-label="MUSTEX reading a conversation">
       <div class="phone" aria-hidden="true">
+        <img class="screen-img" src="assets/screens/hero.png" alt="" />
         <div class="phone-screen">
           <p class="chat-day">Tue 9:42 PM</p>
           <div class="bubble me">so are we still on for friday?</div>
@@ -130,42 +133,30 @@
           <div class="bubble them">omg this week has been crazy</div>
         </div>
       </div>
-
-      <div class="float-card fc-1" data-reveal>
-        <span class="k">Signal</span>
-        "Maybe" twice, zero plans made.
-      </div>
-      <div class="float-card fc-2" data-reveal>
-        <span class="k">Effort balance</span>
-        You're carrying this one.
-        <div class="effort-mini"><i></i></div>
-      </div>
-      <div class="float-card fc-3 fc-verdict" data-reveal>
-        <span class="k">The verdict</span>
-        <span class="score">54</span>
-        <strong>Interested, not invested.</strong>
-      </div>
+      <p class="float-note fn-1" data-reveal>"Maybe" twice. Zero plans.</p>
+      <p class="float-note fn-2" data-reveal>You're <b>carrying</b> this one.</p>
+      <p class="float-note fn-score" data-reveal><span class="num" data-count="54">54</span>Interested, not invested.</p>
     </div>
   </div>
 </section>
 
-<!-- ======================= PROBLEM ======================= -->
+<!-- ======================= SCREENSHOT → READ ======================= -->
 <section class="problem" aria-labelledby="problem-h">
   <div class="wrap">
     <h2 id="problem-h" class="display" data-reveal>
       You already took the screenshot.
-      <span>Now get the read.</span>
+      <span class="quiet">Now get the read.</span>
     </h2>
 
     <div class="thought-field" data-reveal="fade">
-      <p class="thought t1">Is the energy <em>different</em>?</p>
-      <p class="thought t2">Am I overthinking this?</p>
+      <p class="thought t1">Is the energy different?</p>
+      <p class="thought bubbled t2">Am I overthinking this?</p>
       <p class="thought t3">Why'd they reply like <em>that</em>?</p>
       <p class="thought t4">Are they actually interested?</p>
-      <p class="thought t5">Should I text back?</p>
+      <p class="thought bubbled alt t5">Should I text back?</p>
       <p class="thought t6">Was that dry??</p>
       <p class="thought t7">Who's trying harder here?</p>
-      <p class="thought t8">Did the tone just change?</p>
+      <p class="thought bubbled t8">Did the tone just change?</p>
       <p class="thought t9">What do I even say now?</p>
     </div>
   </div>
@@ -175,7 +166,7 @@
 <section class="how" id="how" aria-labelledby="how-h">
   <div class="wrap">
     <div class="how-head" data-reveal>
-      <p class="eyebrow">How it works</p>
+      <span class="kicker accent">How it works</span>
       <h2 id="how-h" class="display">Screenshot in. Read out.</h2>
     </div>
 
@@ -202,7 +193,7 @@
           </div>
           <div class="state state-3">
             <div class="mini-verdict">
-              <span class="k">The verdict</span>
+              <span class="rp-k">The verdict</span>
               <span class="v">54<small>/100</small></span>
               <p>Interested, not invested. They like the attention more than the plans.</p>
             </div>
@@ -235,75 +226,72 @@
 
 <!-- ======================= THE READ ======================= -->
 <section class="read" id="read" aria-labelledby="read-h">
+  <div class="blob" aria-hidden="true"></div>
   <div class="wrap">
     <div class="read-head" data-reveal>
-      <p class="eyebrow">The Read</p>
+      <span class="kicker accent">The Read</span>
       <h2 id="read-h" class="display">More than a yes or no.</h2>
-      <p class="lede">Every read breaks the conversation down into pieces you can actually use.</p>
+      <p class="lede">One screen, everything you were trying to figure out.</p>
     </div>
 
-    <div class="read-grid">
-      <article class="read-card rc-verdict" data-reveal>
-        <p class="k">The verdict</p>
-        <div class="score-row">
-          <span class="score">54</span><span class="outof">/100</span>
-        </div>
-        <h3>Interested, not invested.</h3>
-        <p>They enjoy talking to you. They're just not moving anything forward — and the pattern is consistent.</p>
-        <span class="confidence">High confidence</span>
-      </article>
-
-      <article class="read-card rc-flags" data-reveal>
-        <p class="k">The signals</p>
-        <ul class="flag-list">
-          <li class="flag good"><span class="tag">GREEN</span>They start conversations without being prompted.</li>
-          <li class="flag good"><span class="tag">GREEN</span>Fast, warm replies when the topic is light.</li>
-          <li class="flag bad"><span class="tag">RED</span>Goes vague every time a plan gets specific.</li>
-          <li class="flag bad"><span class="tag">RED</span>"Haha nice" to a message that deserved more.</li>
-        </ul>
-      </article>
-
-      <article class="read-card rc-effort" data-reveal>
-        <p class="k">Effort balance</p>
-        <div class="effort-bar" role="img" aria-label="Effort balance: you 68 percent, them 32 percent">
-          <div class="you"></div>
-          <div class="them-fill"></div>
-        </div>
-        <div class="effort-legend"><span><b>You</b> · 68%</span><span><b>Them</b> · 32%</span></div>
-        <p>You asked the last three questions. They answered all of them — and asked none back.</p>
-      </article>
-
-      <article class="read-card rc-replies" data-reveal>
-        <p class="k">What to send</p>
-        <div class="reply-row">
-          <div class="reply">
-            <span class="style-tag">Direct</span>
-            <p>"Let's lock Friday — 8 at the new place downtown?"</p>
-            <button class="copy-btn" type="button" data-copy>Copy</button>
-          </div>
-          <div class="reply">
-            <span class="style-tag">Playful</span>
-            <p>"That's the third maybe. I'm starting a tally 😌"</p>
-            <button class="copy-btn" type="button" data-copy>Copy</button>
-          </div>
-          <div class="reply">
-            <span class="style-tag">Chill</span>
-            <p>"No stress — just tell me by Thursday so I can make plans."</p>
-            <button class="copy-btn" type="button" data-copy>Copy</button>
+    <div class="read-stage">
+      <div class="read-phone-wrap" data-reveal>
+        <div class="phone read-phone" aria-hidden="true">
+          <img class="screen-img" src="assets/screens/verdict.png" alt="" loading="lazy" />
+          <div class="phone-screen rp">
+            <span class="rp-k">The verdict</span>
+            <div class="rp-score-row"><span class="rp-score" data-count="54">54</span><span class="rp-outof">/100</span></div>
+            <p class="rp-headline">Interested, not invested.</p>
+            <span class="rp-conf">High confidence</span>
+            <div class="rp-sep"></div>
+            <span class="rp-k">Signals</span>
+            <div class="rp-flag good"><span class="dot"></span>They start conversations unprompted.</div>
+            <div class="rp-flag bad"><span class="dot"></span>Goes vague when plans get specific.</div>
+            <div class="rp-sep"></div>
+            <span class="rp-k">Effort balance</span>
+            <div class="rp-effort"><div class="you"></div></div>
+            <div class="rp-effort-legend"><span>You · 68%</span><span>Them · 32%</span></div>
+            <div class="rp-sep"></div>
+            <span class="rp-k">What to send</span>
+            <div class="rp-reply"><b>Direct</b>"Let's lock Friday — 8 at the new place?"</div>
           </div>
         </div>
-      </article>
+      </div>
+
+      <div class="callouts">
+        <div class="callout" data-reveal>
+          <span class="rp-k">The verdict</span>
+          <h3>The main takeaway, scored.</h3>
+          <p>A number, a headline, and how confident MUSTEX is in it. No hedging, no essay.</p>
+        </div>
+        <div class="callout good" data-reveal>
+          <span class="rp-k">The signals</span>
+          <h3>Green flags. Red flags. Named.</h3>
+          <p>The specific patterns that stood out — the good ones and the ones you've been explaining away.</p>
+        </div>
+        <div class="callout" data-reveal>
+          <span class="rp-k">Effort balance</span>
+          <h3>Who's actually carrying it.</h3>
+          <p>Whether the conversation is mutual or you've been hosting it by yourself.</p>
+        </div>
+        <div class="callout" data-reveal>
+          <span class="rp-k">What to send</span>
+          <h3>Your next message, drafted.</h3>
+          <p>Reply suggestions in different styles, ready to copy straight into the chat.</p>
+          <button class="copy-btn" type="button" data-copy data-text="Let's lock Friday — 8 at the new place downtown?">Copy the direct one</button>
+        </div>
+      </div>
     </div>
 
     <p class="demo-note read-footnote" data-reveal="fade">Illustrative example — every read is specific to your conversation.</p>
   </div>
 </section>
 
-<!-- ======================= EVIDENCE ======================= -->
-<section class="evidence" id="features" aria-labelledby="ev-h">
+<!-- ======================= RECEIPTS ======================= -->
+<section class="evidence" id="receipts" aria-labelledby="ev-h">
   <div class="wrap">
     <div class="evidence-head" data-reveal>
-      <p class="eyebrow">Receipts included</p>
+      <span class="kicker accent">Receipts included</span>
       <h2 id="ev-h" class="display">Every signal points at the actual messages.</h2>
       <p class="lede">MUSTEX doesn't hand you a vague paragraph. Its flags are tied to the moments in the conversation that triggered them.</p>
     </div>
@@ -327,21 +315,21 @@
     <div class="annotations">
       <div class="annotation" data-annotation data-target="1" data-mark="marked">
         <div class="annotation-card">
-          <p class="k">Effort</p>
+          <span class="rp-k">Effort</span>
           <h3>You asked the last three questions.</h3>
           <p>Question-asking is one-directional here. That's a pattern, not a coincidence.</p>
         </div>
       </div>
       <div class="annotation" data-annotation data-target="2" data-mark="marked-bad">
         <div class="annotation-card bad">
-          <p class="k">Red flag</p>
+          <span class="rp-k">Red flag</span>
           <h3>Effort dropped here.</h3>
           <p>"Maybe, kinda tired" right after big news is a soft no — not a scheduling issue.</p>
         </div>
       </div>
       <div class="annotation" data-annotation data-target="3" data-mark="marked-good">
         <div class="annotation-card good">
-          <p class="k">Green flag</p>
+          <span class="rp-k">Green flag</span>
           <h3>They re-engaged here.</h3>
           <p>Unprompted double-text and a "what are you doing rn." The interest isn't gone — it's inconsistent.</p>
         </div>
@@ -350,44 +338,49 @@
   </div>
 </section>
 
-<!-- ======================= DIFFERENT READS ======================= -->
+<!-- ======================= VERDICT PERSONALITY ======================= -->
 <section class="verdicts" aria-labelledby="v-h">
   <div class="wrap">
-    <h2 id="v-h" class="display" data-reveal>No two reads look the same.</h2>
-    <p class="lede" data-reveal>MUSTEX scores the actual dynamic in front of it. Sometimes that's great news. Sometimes it's the news you needed.</p>
+    <div class="verdicts-head" data-reveal>
+      <h2 id="v-h" class="display">No two reads look the same.</h2>
+      <p class="lede">MUSTEX scores the actual dynamic in front of it. Sometimes that's great news. Sometimes it's the news you needed.</p>
+    </div>
 
-    <div class="verdict-fan">
-      <article class="vcard vcard-high" data-reveal>
-        <p class="k">The verdict</p>
-        <p class="score">86<small>/100</small></p>
+    <div class="vrow vrow-high" data-reveal>
+      <div class="blob" aria-hidden="true"></div>
+      <p class="vscore" data-count="86">86</p>
+      <div>
         <h3>It's mutual. Relax.</h3>
         <p>Matched energy, plans that actually happen, questions going both ways. You're overthinking a good thing.</p>
-        <div class="bar"><i></i></div>
-      </article>
-      <article class="vcard vcard-mid" data-reveal>
-        <p class="k">The verdict</p>
-        <p class="score">54<small>/100</small></p>
+      </div>
+    </div>
+    <div class="vrow vrow-mid" data-reveal>
+      <div class="blob" aria-hidden="true"></div>
+      <p class="vscore" data-count="54">54</p>
+      <div>
         <h3>Interested, not invested.</h3>
         <p>Warm when it's easy, vague when it counts. The signals are real — they're just pointing in two directions.</p>
-        <div class="bar"><i></i></div>
-      </article>
-      <article class="vcard vcard-low" data-reveal>
-        <p class="k">The verdict</p>
-        <p class="score">31<small>/100</small></p>
+      </div>
+    </div>
+    <div class="vrow vrow-low" data-reveal>
+      <div class="blob" aria-hidden="true"></div>
+      <p class="vscore" data-count="31">31</p>
+      <div>
         <h3>You're carrying this.</h3>
         <p>One-word replies, no questions back, plans that never survive contact. The read is clear even if it stings.</p>
-        <div class="bar"><i></i></div>
-      </article>
+      </div>
     </div>
-    <p class="demo-note" style="margin-top:32px" data-reveal="fade">Illustrative examples</p>
+
+    <span class="demo-note" data-reveal="fade">Illustrative examples</span>
   </div>
 </section>
 
 <!-- ======================= SHARE ======================= -->
 <section class="share" aria-labelledby="share-h">
+  <div class="blob" aria-hidden="true"></div>
   <div class="wrap">
     <div class="share-copy" data-reveal>
-      <p class="eyebrow">The verdict card</p>
+      <span class="kicker accent">The verdict card</span>
       <h2 id="share-h" class="display">Get the read. Send it to the group chat.</h2>
       <p class="lede">
         Every read comes with a verdict card built to be shared. Because you were going
@@ -398,12 +391,12 @@
     <div class="share-visual">
       <div class="share-card" id="shareCard" aria-label="Example shareable verdict card">
         <div class="share-piece sp-1">
-          <p class="k">The verdict</p>
-          <p class="score">31</p>
+          <span class="rp-k">The verdict</span>
+          <p class="score" data-count="31">31</p>
           <h3>You're carrying this.</h3>
         </div>
         <div class="share-piece sp-2">
-          <div class="flag bad"><span class="tag">RED</span>You asked the last three questions.</div>
+          <span class="dot"></span>You asked the last three questions.
         </div>
         <div class="share-piece sp-3">
           "They answer everything. They ask nothing. That's your answer."
@@ -448,37 +441,11 @@
   </div>
 </section>
 
-<!-- ======================= WHY NOT GENERIC AI ======================= -->
-<section class="why" aria-labelledby="why-h">
-  <div class="wrap">
-    <h2 id="why-h" class="display" data-reveal>Built for the screenshot, not the prompt.</h2>
-    <p class="lede" data-reveal>No explaining the whole backstory. No engineering the perfect prompt. No wall of text to untangle.</p>
-
-    <div class="flow" data-reveal>
-      <span class="node">conversation</span>
-      <span class="arrow">→</span>
-      <span class="node">read</span>
-      <span class="arrow">→</span>
-      <span class="node">evidence</span>
-      <span class="arrow">→</span>
-      <span class="node hot">verdict</span>
-      <span class="arrow">→</span>
-      <span class="node">next move</span>
-    </div>
-
-    <p class="why-copy" data-reveal>
-      MUSTEX is built around this one workflow. You drop in the screenshot; it already knows
-      what to look for, how to structure the answer, and that <b>what you send next</b> is
-      the part that actually matters.
-    </p>
-  </div>
-</section>
-
 <!-- ======================= PRIVACY ======================= -->
 <section class="privacy" aria-labelledby="p-h">
-  <div class="wrap" data-reveal>
-    <div>
-      <p class="eyebrow">Privacy</p>
+  <div class="wrap">
+    <div data-reveal>
+      <span class="kicker">Privacy</span>
       <h2 id="p-h" class="display">Your conversations are personal.</h2>
       <p class="lede">
         We built MUSTEX like an app we'd trust with our own screenshots. The full details
@@ -486,7 +453,7 @@
         the app actually works, not a legal template.
       </p>
     </div>
-    <ul>
+    <ul data-reveal>
       <li><span class="check">✓</span>Your screenshots are analyzed in a single request and are never written to a database or file storage by MUSTEX.</li>
       <li><span class="check">✓</span>No account, no sign-in — we never ask for your name, email, or number.</li>
       <li><span class="check">✓</span>Product analytics are anonymous and never include message content or names.</li>
@@ -498,7 +465,7 @@
 <!-- ======================= FAQ ======================= -->
 <section class="faq" id="faq" aria-labelledby="faq-h">
   <div class="wrap">
-    <p class="eyebrow" data-reveal>FAQ</p>
+    <span class="kicker accent" data-reveal>FAQ</span>
     <h2 id="faq-h" class="display" data-reveal>Questions, answered.</h2>
 
     <div class="acc" data-reveal="fade">
@@ -556,14 +523,14 @@
 
 <!-- ======================= FINAL CTA ======================= -->
 <section class="final" id="download" aria-labelledby="final-h">
+  <div class="blob" aria-hidden="true"></div>
   <div class="wrap">
     <h2 id="final-h" class="display" data-reveal>
       You have the screenshot.
       <span>Now get the read.</span>
     </h2>
 
-    <span class="wordmark-big" data-reveal>MUSTEX</span>
-    <p class="tagline" data-reveal>Read between the lines.</p>
+    <p class="sig" data-reveal style="justify-content:center">Read between the lines.</p>
 
     <div class="final-ctas" data-reveal>
       <span class="store-pill">
