@@ -4,135 +4,592 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>MUSTEX — Read between the lines</title>
-<meta name="description" content="MUSTEX reads a screenshot of your conversation and gives you an honest, structured verdict." />
+<meta name="description" content="MUSTEX turns a screenshot of your conversation into a structured read: the verdict, the signals, the effort balance, and what to send next. Coming soon to iPhone." />
+<link rel="canonical" href="https://z-skii.github.io/Mustex-site/" />
 <meta name="theme-color" content="#0b0b0f" />
-<meta property="og:title" content="MUSTEX" />
-<meta property="og:description" content="Read between the lines." />
+
 <meta property="og:type" content="website" />
-<style>
-  /* Palette lifted from the app's theme.ts so web and app read as one product. */
-  :root {
-    --bg: #0b0b0f;
-    --surface: #15151c;
-    --border: #2a2a35;
-    --text: #ffffff;
-    --body: #d7d7e0;
-    --dim: #9a9aa5;
-    --faint: #66667a;
-    --accent: #6c5ce7;
-  }
-  * { box-sizing: border-box; }
-  html, body { height: 100%; }
-  body {
-    margin: 0;
-    background: var(--bg);
-    color: var(--body);
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    -webkit-font-smoothing: antialiased;
-    display: flex;
-    flex-direction: column;
-    min-height: 100%;
-  }
-  /* A soft accent bloom behind the wordmark, same accentSoft family as the app. */
-  body::before {
-    content: "";
-    position: fixed;
-    inset: 0;
-    background: radial-gradient(60% 45% at 50% 22%, rgba(108, 92, 231, 0.20), transparent 70%);
-    pointer-events: none;
-  }
-  main {
-    position: relative;
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 36px 24px;
-  }
-  .wordmark {
-    margin: 0;
-    color: var(--text);
-    font-size: 44px;
-    font-weight: 900;
-    letter-spacing: 9px;
-    line-height: 1.05;
-  }
-  .tagline {
-    margin: 12px 0 0;
-    color: var(--faint);
-    font-size: 13px;
-    letter-spacing: 0.6px;
-  }
-  .rule {
-    width: 56px;
-    height: 2px;
-    margin: 24px 0;
-    background: var(--accent);
-    border-radius: 2px;
-  }
-  .desc {
-    margin: 0;
-    max-width: 30rem;
-    font-size: 17px;
-    line-height: 1.6;
-    color: var(--body);
-  }
-  .contact {
-    margin-top: 36px;
-    padding: 14px 20px;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 1.4px;
-    color: var(--dim);
-    text-transform: uppercase;
-  }
-  .contact a {
-    display: block;
-    margin-top: 6px;
-    color: var(--text);
-    font-size: 15px;
-    font-weight: 600;
-    letter-spacing: 0;
-    text-transform: none;
-    text-decoration: none;
-  }
-  .contact a:hover { color: var(--accent); }
-  footer {
-    position: relative;
-    padding: 24px;
-    text-align: center;
-    font-size: 13px;
-    color: var(--faint);
-  }
-  footer a { color: var(--dim); text-decoration: none; }
-  footer a:hover { color: var(--accent); }
-  @media (max-width: 420px) {
-    .wordmark { font-size: 32px; letter-spacing: 6px; }
-    .desc { font-size: 16px; }
-  }
-</style>
+<meta property="og:site_name" content="MUSTEX" />
+<meta property="og:title" content="MUSTEX — Read between the lines" />
+<meta property="og:description" content="Drop in the conversation. MUSTEX breaks down the signals, effort, and energy — then helps you figure out your next move." />
+<meta property="og:url" content="https://z-skii.github.io/Mustex-site/" />
+<meta property="og:image" content="https://z-skii.github.io/Mustex-site/assets/og.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="MUSTEX — Read between the lines" />
+<meta name="twitter:description" content="Drop in the conversation. MUSTEX breaks down the signals, effort, and energy — then helps you figure out your next move." />
+<meta name="twitter:image" content="https://z-skii.github.io/Mustex-site/assets/og.png" />
+
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&display=swap" />
+<link rel="stylesheet" href="styles.css" />
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Mustex",
+  "applicationCategory": "LifestyleApplication",
+  "operatingSystem": "iOS",
+  "description": "Mustex analyzes screenshots of a text conversation and returns a structured read: a verdict with a score and confidence, the signals that stood out, the effort balance, and suggested replies — plus a shareable verdict card.",
+  "url": "https://z-skii.github.io/Mustex-site/"
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is MUSTEX?",
+      "acceptedAnswer": { "@type": "Answer", "text": "MUSTEX is an app for the conversations you can't stop thinking about. You give it screenshots of a chat, and it returns a structured read: a verdict with a score, the signals it noticed, the effort balance, and what you could send next." }
+    },
+    {
+      "@type": "Question",
+      "name": "How does MUSTEX work?",
+      "acceptedAnswer": { "@type": "Answer", "text": "You select screenshots of the conversation. MUSTEX automatically detects which side is you (with a one-tap swap if it guesses wrong), analyzes the interaction, and returns the read — verdict, signals, effort balance, and suggested replies." }
+    },
+    {
+      "@type": "Question",
+      "name": "What happens to my screenshots?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Screenshots are sent for a single analysis and are never written to a database or file storage by MUSTEX — they exist only for the duration of that one request. No account or sign-in is required. Full details are in the Privacy Policy." }
+    },
+    {
+      "@type": "Question",
+      "name": "Is MUSTEX available on iPhone?",
+      "acceptedAnswer": { "@type": "Answer", "text": "MUSTEX is coming to iPhone first. It is not on the App Store yet — this page will link to it the moment it is." }
+    }
+  ]
+}
+</script>
 </head>
 <body>
-  <main>
-    <h1 class="wordmark">MUSTEX</h1>
-    <p class="tagline">Read between the lines</p>
-    <div class="rule"></div>
-    <p class="desc">
-      MUSTEX reads a screenshot of your conversation and gives you an honest, structured
-      verdict &mdash; the signals, the effort balance, and what to send next.
+
+<a class="visually-hidden skip-link" href="#main">Skip to content</a>
+
+<!-- ======================= NAV ======================= -->
+<header class="nav" id="nav">
+  <div class="nav-inner">
+    <a class="wordmark" href="#top" aria-label="MUSTEX — back to top">MUSTEX</a>
+
+    <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="navMenu" aria-label="Open menu">
+      <span></span>
+    </button>
+
+    <nav class="nav-menu" id="navMenu" aria-label="Main">
+      <ul class="nav-links">
+        <li><a href="#how">How it works</a></li>
+        <li><a href="#read">The Read</a></li>
+        <li><a href="#features">Features</a></li>
+        <li><a href="#faq">FAQ</a></li>
+      </ul>
+      <div class="nav-cta">
+        <a class="btn btn-primary" href="#download">Get MUSTEX</a>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+<!-- ======================= HERO ======================= -->
+<section class="hero" id="top">
+  <div class="wrap">
+    <div class="hero-copy">
+      <h1 class="display">
+        Stop rereading the chat.
+        <span class="line-2">Read between the lines.</span>
+      </h1>
+      <p class="lede">
+        Drop in the conversation. MUSTEX breaks down the signals, effort, and energy —
+        then helps you figure out your next move.
+      </p>
+      <div class="hero-ctas">
+        <a class="btn btn-primary" href="#download">Get MUSTEX</a>
+        <a class="btn btn-ghost" href="#read">See a read ↓</a>
+      </div>
+      <p class="hero-sub">Coming soon on the App Store · No account needed</p>
+    </div>
+
+    <div class="hero-visual" aria-label="Illustration of MUSTEX analyzing a conversation">
+      <div class="phone" aria-hidden="true">
+        <div class="phone-screen">
+          <p class="chat-day">Tue 9:42 PM</p>
+          <div class="bubble me">so are we still on for friday?</div>
+          <div class="bubble them">yeah maybe! i'll let you know</div>
+          <div class="bubble me">okay cool, there's that new place downtown</div>
+          <div class="bubble me">or we could just do the usual spot</div>
+          <p class="chat-day">Wed 11:15 AM</p>
+          <div class="bubble them marked">haha nice</div>
+          <div class="bubble me">so… friday? 👀</div>
+          <div class="bubble them">omg this week has been crazy</div>
+        </div>
+      </div>
+
+      <div class="float-card fc-1" data-reveal>
+        <span class="k">Signal</span>
+        "Maybe" twice, zero plans made.
+      </div>
+      <div class="float-card fc-2" data-reveal>
+        <span class="k">Effort balance</span>
+        You're carrying this one.
+        <div class="effort-mini"><i></i></div>
+      </div>
+      <div class="float-card fc-3 fc-verdict" data-reveal>
+        <span class="k">The verdict</span>
+        <span class="score">54</span>
+        <strong>Interested, not invested.</strong>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= PROBLEM ======================= -->
+<section class="problem" aria-labelledby="problem-h">
+  <div class="wrap">
+    <h2 id="problem-h" class="display" data-reveal>
+      You already took the screenshot.
+      <span>Now get the read.</span>
+    </h2>
+
+    <div class="thought-field" data-reveal="fade">
+      <p class="thought t1">Is the energy <em>different</em>?</p>
+      <p class="thought t2">Am I overthinking this?</p>
+      <p class="thought t3">Why'd they reply like <em>that</em>?</p>
+      <p class="thought t4">Are they actually interested?</p>
+      <p class="thought t5">Should I text back?</p>
+      <p class="thought t6">Was that dry??</p>
+      <p class="thought t7">Who's trying harder here?</p>
+      <p class="thought t8">Did the tone just change?</p>
+      <p class="thought t9">What do I even say now?</p>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= HOW IT WORKS ======================= -->
+<section class="how" id="how" aria-labelledby="how-h">
+  <div class="wrap">
+    <div class="how-head" data-reveal>
+      <p class="eyebrow">How it works</p>
+      <h2 id="how-h" class="display">Screenshot in. Read out.</h2>
+    </div>
+
+    <div class="how-sticky">
+      <div class="phone how-phone" id="howPhone" data-step="1" aria-hidden="true">
+        <div class="phone-screen">
+          <div class="state state-1">
+            <div class="upload-slot">
+              <strong>Drop your screenshots</strong>
+              Add the part of the conversation you keep going back to.
+            </div>
+            <div class="upload-thumb"><i></i><i></i><i></i></div>
+            <div class="upload-thumb"><i></i><i></i><i></i></div>
+          </div>
+          <div class="state state-2">
+            <div class="scan-wrap">
+              <div class="scan-line"></div>
+              <div class="bubble them">yeah maybe! i'll let you know</div>
+              <div class="bubble me">okay cool, there's that new place downtown</div>
+              <div class="bubble them">haha nice</div>
+              <div class="bubble me">so… friday? 👀</div>
+              <p class="reading-label">Reading the dynamic<span class="dots"></span></p>
+            </div>
+          </div>
+          <div class="state state-3">
+            <div class="mini-verdict">
+              <span class="k">The verdict</span>
+              <span class="v">54<small>/100</small></span>
+              <p>Interested, not invested. They like the attention more than the plans.</p>
+            </div>
+            <div class="mini-flag bad"><span class="dot"></span>Vague replies every time plans get specific.</div>
+            <div class="mini-flag good"><span class="dot"></span>They keep the conversation alive on their own.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="how-steps">
+      <div class="step" data-step-trigger="1" data-reveal>
+        <p class="step-num">01</p>
+        <h3>Drop the screenshot</h3>
+        <p>Give MUSTEX the conversation you're thinking about. It figures out which side is you automatically — and if it guesses wrong, one tap swaps it.</p>
+      </div>
+      <div class="step" data-step-trigger="2" data-reveal>
+        <p class="step-num">02</p>
+        <h3>MUSTEX reads the dynamic</h3>
+        <p>It looks across the whole conversation — tone, effort, timing, patterns — not just the last message you can't stop staring at.</p>
+      </div>
+      <div class="step" data-step-trigger="3" data-reveal>
+        <p class="step-num">03</p>
+        <h3>Get the read</h3>
+        <p>A structured verdict: the score, the signals that stood out, the effort balance, and what you could actually send next.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= THE READ ======================= -->
+<section class="read" id="read" aria-labelledby="read-h">
+  <div class="wrap">
+    <div class="read-head" data-reveal>
+      <p class="eyebrow">The Read</p>
+      <h2 id="read-h" class="display">More than a yes or no.</h2>
+      <p class="lede">Every read breaks the conversation down into pieces you can actually use.</p>
+    </div>
+
+    <div class="read-grid">
+      <article class="read-card rc-verdict" data-reveal>
+        <p class="k">The verdict</p>
+        <div class="score-row">
+          <span class="score">54</span><span class="outof">/100</span>
+        </div>
+        <h3>Interested, not invested.</h3>
+        <p>They enjoy talking to you. They're just not moving anything forward — and the pattern is consistent.</p>
+        <span class="confidence">High confidence</span>
+      </article>
+
+      <article class="read-card rc-flags" data-reveal>
+        <p class="k">The signals</p>
+        <ul class="flag-list">
+          <li class="flag good"><span class="tag">GREEN</span>They start conversations without being prompted.</li>
+          <li class="flag good"><span class="tag">GREEN</span>Fast, warm replies when the topic is light.</li>
+          <li class="flag bad"><span class="tag">RED</span>Goes vague every time a plan gets specific.</li>
+          <li class="flag bad"><span class="tag">RED</span>"Haha nice" to a message that deserved more.</li>
+        </ul>
+      </article>
+
+      <article class="read-card rc-effort" data-reveal>
+        <p class="k">Effort balance</p>
+        <div class="effort-bar" role="img" aria-label="Effort balance: you 68 percent, them 32 percent">
+          <div class="you"></div>
+          <div class="them-fill"></div>
+        </div>
+        <div class="effort-legend"><span><b>You</b> · 68%</span><span><b>Them</b> · 32%</span></div>
+        <p>You asked the last three questions. They answered all of them — and asked none back.</p>
+      </article>
+
+      <article class="read-card rc-replies" data-reveal>
+        <p class="k">What to send</p>
+        <div class="reply-row">
+          <div class="reply">
+            <span class="style-tag">Direct</span>
+            <p>"Let's lock Friday — 8 at the new place downtown?"</p>
+            <button class="copy-btn" type="button" data-copy>Copy</button>
+          </div>
+          <div class="reply">
+            <span class="style-tag">Playful</span>
+            <p>"That's the third maybe. I'm starting a tally 😌"</p>
+            <button class="copy-btn" type="button" data-copy>Copy</button>
+          </div>
+          <div class="reply">
+            <span class="style-tag">Chill</span>
+            <p>"No stress — just tell me by Thursday so I can make plans."</p>
+            <button class="copy-btn" type="button" data-copy>Copy</button>
+          </div>
+        </div>
+      </article>
+    </div>
+
+    <p class="demo-note read-footnote" data-reveal="fade">Illustrative example — every read is specific to your conversation.</p>
+  </div>
+</section>
+
+<!-- ======================= EVIDENCE ======================= -->
+<section class="evidence" id="features" aria-labelledby="ev-h">
+  <div class="wrap">
+    <div class="evidence-head" data-reveal>
+      <p class="eyebrow">Receipts included</p>
+      <h2 id="ev-h" class="display">Every signal points at the actual messages.</h2>
+      <p class="lede">MUSTEX doesn't hand you a vague paragraph. Its flags are tied to the moments in the conversation that triggered them.</p>
+    </div>
+
+    <div class="evidence-pin">
+      <div class="phone" aria-hidden="true">
+        <div class="phone-screen" id="evPhone">
+          <p class="chat-day">Last week</p>
+          <div class="bubble me" data-ev="1">how was the interview??</div>
+          <div class="bubble them">SO good, i think i got it 🎉</div>
+          <div class="bubble me" data-ev="1">knew you would. celebrating this weekend?</div>
+          <div class="bubble them" data-ev="2">maybe! kinda tired lately</div>
+          <p class="chat-day">Yesterday</p>
+          <div class="bubble me" data-ev="1">saw this and thought of you lol</div>
+          <div class="bubble them" data-ev="3">LMAOOO okay that's actually so us</div>
+          <div class="bubble them" data-ev="3">wait what are you doing rn</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="annotations">
+      <div class="annotation" data-annotation data-target="1" data-mark="marked">
+        <div class="annotation-card">
+          <p class="k">Effort</p>
+          <h3>You asked the last three questions.</h3>
+          <p>Question-asking is one-directional here. That's a pattern, not a coincidence.</p>
+        </div>
+      </div>
+      <div class="annotation" data-annotation data-target="2" data-mark="marked-bad">
+        <div class="annotation-card bad">
+          <p class="k">Red flag</p>
+          <h3>Effort dropped here.</h3>
+          <p>"Maybe, kinda tired" right after big news is a soft no — not a scheduling issue.</p>
+        </div>
+      </div>
+      <div class="annotation" data-annotation data-target="3" data-mark="marked-good">
+        <div class="annotation-card good">
+          <p class="k">Green flag</p>
+          <h3>They re-engaged here.</h3>
+          <p>Unprompted double-text and a "what are you doing rn." The interest isn't gone — it's inconsistent.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= DIFFERENT READS ======================= -->
+<section class="verdicts" aria-labelledby="v-h">
+  <div class="wrap">
+    <h2 id="v-h" class="display" data-reveal>No two reads look the same.</h2>
+    <p class="lede" data-reveal>MUSTEX scores the actual dynamic in front of it. Sometimes that's great news. Sometimes it's the news you needed.</p>
+
+    <div class="verdict-fan">
+      <article class="vcard vcard-high" data-reveal>
+        <p class="k">The verdict</p>
+        <p class="score">86<small>/100</small></p>
+        <h3>It's mutual. Relax.</h3>
+        <p>Matched energy, plans that actually happen, questions going both ways. You're overthinking a good thing.</p>
+        <div class="bar"><i></i></div>
+      </article>
+      <article class="vcard vcard-mid" data-reveal>
+        <p class="k">The verdict</p>
+        <p class="score">54<small>/100</small></p>
+        <h3>Interested, not invested.</h3>
+        <p>Warm when it's easy, vague when it counts. The signals are real — they're just pointing in two directions.</p>
+        <div class="bar"><i></i></div>
+      </article>
+      <article class="vcard vcard-low" data-reveal>
+        <p class="k">The verdict</p>
+        <p class="score">31<small>/100</small></p>
+        <h3>You're carrying this.</h3>
+        <p>One-word replies, no questions back, plans that never survive contact. The read is clear even if it stings.</p>
+        <div class="bar"><i></i></div>
+      </article>
+    </div>
+    <p class="demo-note" style="margin-top:32px" data-reveal="fade">Illustrative examples</p>
+  </div>
+</section>
+
+<!-- ======================= SHARE ======================= -->
+<section class="share" aria-labelledby="share-h">
+  <div class="wrap">
+    <div class="share-copy" data-reveal>
+      <p class="eyebrow">The verdict card</p>
+      <h2 id="share-h" class="display">Get the read. Send it to the group chat.</h2>
+      <p class="lede">
+        Every read comes with a verdict card built to be shared. Because you were going
+        to screenshot it for them anyway.
+      </p>
+    </div>
+
+    <div class="share-visual">
+      <div class="share-card" id="shareCard" aria-label="Example shareable verdict card">
+        <div class="share-piece sp-1">
+          <p class="k">The verdict</p>
+          <p class="score">31</p>
+          <h3>You're carrying this.</h3>
+        </div>
+        <div class="share-piece sp-2">
+          <div class="flag bad"><span class="tag">RED</span>You asked the last three questions.</div>
+        </div>
+        <div class="share-piece sp-3">
+          "They answer everything. They ask nothing. That's your answer."
+        </div>
+        <div class="share-piece sp-4">
+          <span class="wordmark">MUSTEX</span>
+          <span>Read between the lines</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= GROUP CHAT MOMENTS ======================= -->
+<section class="moments" aria-labelledby="m-h">
+  <h2 id="m-h" class="display" data-reveal>Built for the questions you ask the group chat.</h2>
+  <div class="ticker-row" aria-hidden="true">
+    <div class="ticker">
+      <span class="moment">the <b>talking stage</b></span>
+      <span class="moment">the first-date <b>follow-up</b></span>
+      <span class="moment">the unexpectedly <b>dry reply</b></span>
+      <span class="moment">the <b>"wyd"</b></span>
+      <span class="moment">the <b>2 AM</b> text</span>
+      <span class="moment">the <b>talking stage</b></span>
+      <span class="moment">the first-date <b>follow-up</b></span>
+      <span class="moment">the unexpectedly <b>dry reply</b></span>
+      <span class="moment">the <b>"wyd"</b></span>
+      <span class="moment">the <b>2 AM</b> text</span>
+    </div>
+  </div>
+  <div class="ticker-row" aria-hidden="true">
+    <div class="ticker">
+      <span class="moment">the <b>ex</b> coming back</span>
+      <span class="moment">the message you've rewritten <b>eight times</b></span>
+      <span class="moment">the convo that suddenly feels <b>different</b></span>
+      <span class="moment">the <b>situationship</b> nobody can figure out</span>
+      <span class="moment">the <b>ex</b> coming back</span>
+      <span class="moment">the message you've rewritten <b>eight times</b></span>
+      <span class="moment">the convo that suddenly feels <b>different</b></span>
+      <span class="moment">the <b>situationship</b> nobody can figure out</span>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= WHY NOT GENERIC AI ======================= -->
+<section class="why" aria-labelledby="why-h">
+  <div class="wrap">
+    <h2 id="why-h" class="display" data-reveal>Built for the screenshot, not the prompt.</h2>
+    <p class="lede" data-reveal>No explaining the whole backstory. No engineering the perfect prompt. No wall of text to untangle.</p>
+
+    <div class="flow" data-reveal>
+      <span class="node">conversation</span>
+      <span class="arrow">→</span>
+      <span class="node">read</span>
+      <span class="arrow">→</span>
+      <span class="node">evidence</span>
+      <span class="arrow">→</span>
+      <span class="node hot">verdict</span>
+      <span class="arrow">→</span>
+      <span class="node">next move</span>
+    </div>
+
+    <p class="why-copy" data-reveal>
+      MUSTEX is built around this one workflow. You drop in the screenshot; it already knows
+      what to look for, how to structure the answer, and that <b>what you send next</b> is
+      the part that actually matters.
     </p>
-    <p class="contact">
-      Contact
-      <a href="mailto:molol098765@gmail.com">molol098765@gmail.com</a>
-    </p>
-  </main>
-  <footer>
-    <a href="privacy.html">Privacy Policy</a>
-  </footer>
+  </div>
+</section>
+
+<!-- ======================= PRIVACY ======================= -->
+<section class="privacy" aria-labelledby="p-h">
+  <div class="wrap" data-reveal>
+    <div>
+      <p class="eyebrow">Privacy</p>
+      <h2 id="p-h" class="display">Your conversations are personal.</h2>
+      <p class="lede">
+        We built MUSTEX like an app we'd trust with our own screenshots. The full details
+        are in the <a class="text-link" href="privacy.html">Privacy Policy</a> — written from how
+        the app actually works, not a legal template.
+      </p>
+    </div>
+    <ul>
+      <li><span class="check">✓</span>Your screenshots are analyzed in a single request and are never written to a database or file storage by MUSTEX.</li>
+      <li><span class="check">✓</span>No account, no sign-in — we never ask for your name, email, or number.</li>
+      <li><span class="check">✓</span>Product analytics are anonymous and never include message content or names.</li>
+      <li><span class="check">✓</span>No ads, no advertising trackers, no selling data.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ======================= FAQ ======================= -->
+<section class="faq" id="faq" aria-labelledby="faq-h">
+  <div class="wrap">
+    <p class="eyebrow" data-reveal>FAQ</p>
+    <h2 id="faq-h" class="display" data-reveal>Questions, answered.</h2>
+
+    <div class="acc" data-reveal="fade">
+      <div class="acc-item">
+        <h3><button class="acc-btn" aria-expanded="false" aria-controls="faq-a1" id="faq-q1">What is MUSTEX?<span class="acc-icon" aria-hidden="true"></span></button></h3>
+        <div class="acc-panel" id="faq-a1" role="region" aria-labelledby="faq-q1">
+          <div class="acc-panel-inner">MUSTEX is an app for the conversations you can't stop thinking about. You give it screenshots of a chat, and it gives you back a structured read — a verdict with a score, the signals it noticed, the effort balance, and what you could send next.</div>
+        </div>
+      </div>
+      <div class="acc-item">
+        <h3><button class="acc-btn" aria-expanded="false" aria-controls="faq-a2" id="faq-q2">How does MUSTEX work?<span class="acc-icon" aria-hidden="true"></span></button></h3>
+        <div class="acc-panel" id="faq-a2" role="region" aria-labelledby="faq-q2">
+          <div class="acc-panel-inner">Select screenshots of the conversation and MUSTEX does the rest. It automatically detects which side of the chat is you (tap "Wrong? Swap" if it guesses wrong), reads the whole dynamic, and returns the verdict.</div>
+        </div>
+      </div>
+      <div class="acc-item">
+        <h3><button class="acc-btn" aria-expanded="false" aria-controls="faq-a3" id="faq-q3">What kinds of conversations can I analyze?<span class="acc-icon" aria-hidden="true"></span></button></h3>
+        <div class="acc-panel" id="faq-a3" role="region" aria-labelledby="faq-q3">
+          <div class="acc-panel-inner">Any text conversation you can screenshot — iMessage, DMs, dating apps, whatever you're overthinking. Talking stages, situationships, mixed signals, a friend acting different, the ex who resurfaced.</div>
+        </div>
+      </div>
+      <div class="acc-item">
+        <h3><button class="acc-btn" aria-expanded="false" aria-controls="faq-a4" id="faq-q4">What does a MUSTEX read include?<span class="acc-icon" aria-hidden="true"></span></button></h3>
+        <div class="acc-panel" id="faq-a4" role="region" aria-labelledby="faq-q4">
+          <div class="acc-panel-inner">A verdict with a score and a confidence level, the green and red flags MUSTEX spotted, the effort balance between you and them, and suggested replies in different styles you can copy straight into the chat. You also get a verdict card made for sharing.</div>
+        </div>
+      </div>
+      <div class="acc-item">
+        <h3><button class="acc-btn" aria-expanded="false" aria-controls="faq-a5" id="faq-q5">Is MUSTEX a dating app?<span class="acc-icon" aria-hidden="true"></span></button></h3>
+        <div class="acc-panel" id="faq-a5" role="region" aria-labelledby="faq-q5">
+          <div class="acc-panel-inner">No. MUSTEX doesn't match you with anyone — it reads the conversations you already have. It works on any chat where you want a second opinion, romantic or not.</div>
+        </div>
+      </div>
+      <div class="acc-item">
+        <h3><button class="acc-btn" aria-expanded="false" aria-controls="faq-a6" id="faq-q6">Can I share my result?<span class="acc-icon" aria-hidden="true"></span></button></h3>
+        <div class="acc-panel" id="faq-a6" role="region" aria-labelledby="faq-q6">
+          <div class="acc-panel-inner">Yes — every read comes with a shareable verdict card, made for the group chat.</div>
+        </div>
+      </div>
+      <div class="acc-item">
+        <h3><button class="acc-btn" aria-expanded="false" aria-controls="faq-a7" id="faq-q7">What happens to my screenshots?<span class="acc-icon" aria-hidden="true"></span></button></h3>
+        <div class="acc-panel" id="faq-a7" role="region" aria-labelledby="faq-q7">
+          <div class="acc-panel-inner">They're sent for one analysis and are never written to a database or file storage by MUSTEX — they exist only for the duration of that single request. No account is required, so nothing is tied to your identity. The <a href="privacy.html">Privacy Policy</a> has the full breakdown.</div>
+        </div>
+      </div>
+      <div class="acc-item">
+        <h3><button class="acc-btn" aria-expanded="false" aria-controls="faq-a8" id="faq-q8">Is MUSTEX available on iPhone?<span class="acc-icon" aria-hidden="true"></span></button></h3>
+        <div class="acc-panel" id="faq-a8" role="region" aria-labelledby="faq-q8">
+          <div class="acc-panel-inner">MUSTEX is coming to iPhone first. It's not on the App Store quite yet — this page will link straight to it the moment it is.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= FINAL CTA ======================= -->
+<section class="final" id="download" aria-labelledby="final-h">
+  <div class="wrap">
+    <h2 id="final-h" class="display" data-reveal>
+      You have the screenshot.
+      <span>Now get the read.</span>
+    </h2>
+
+    <span class="wordmark-big" data-reveal>MUSTEX</span>
+    <p class="tagline" data-reveal>Read between the lines.</p>
+
+    <div class="final-ctas" data-reveal>
+      <span class="store-pill">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5.5" stroke="#9a9aa5" stroke-width="1.6"/><path d="M12 7v7m0 0-3-3m3 3 3-3" stroke="#fff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span><small>Coming soon on the</small><strong>App Store</strong></span>
+      </span>
+      <a class="btn btn-ghost" href="#how">See how it works</a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ======================= FOOTER ======================= -->
+<footer>
+  <div class="wrap footer-inner">
+    <a class="wordmark" href="#top">MUSTEX</a>
+    <nav class="footer-links" aria-label="Footer">
+      <a href="privacy.html">Privacy Policy</a>
+      <a href="mailto:molol098765@gmail.com">Contact</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+    <p class="footer-copy">© 2026 MUSTEX. Read between the lines.</p>
+  </div>
+</footer>
+
+<script src="script.js" defer></script>
 </body>
 </html>
